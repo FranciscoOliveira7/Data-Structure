@@ -9,20 +9,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "Costumer.h"
+#include "Customer.h"
 
 int main() {
-	float numero2 = 3;
 
-	Costumer c1 = { 1, "dwdw", "dwd", "dwdw", 2, NULL };
-	Costumer c2 = { 2, "dydfy", "breb", "sdf", 69, NULL };
+	Customer* customers = NULL; //Costumer linked list inicialization
 
-	Costumer* costumers = (Costumer*)malloc(sizeof(Costumer));
-	*costumers = c2;
+	Customer c1 = { 69420, "dwdw", "dwd", "dwdw", 2, NULL };
+	Customer c2 = { 12345, "dydfy", "breb", "sdf", 69, NULL };
 
-	AddCostumer(costumers, c1);
+	AddCustomer(&customers, c1);
+	AddCustomer(&customers, c2);
 
-	costumers->balance = numero2;
+	Customer c3;
 
-	printf("Balance: %.2f", costumers->balance);
+	c3 = FindCustomer(customers, 0);
+
+	//printf("Balance: %.2f", costumers->balance);
+
+	return c3.id;
 }
