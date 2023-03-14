@@ -1,59 +1,59 @@
 /*****************************************************************//**
- * @file   Customer.c
- * @brief  Customer structure functions
+ * @file   Manager.c
+ * @brief  Manager structure functions
  * 
  * @author Francisco
  * @date   March 2023
  *********************************************************************/
 
-#include "Customer.h"
+#include "Manager.h"
 
 /**
- * Appends a new Customer to the linked list.
+ * Appends a new Manager to the linked list.
  *
  * @param List Head
- * @param Customer to insert
+ * @param Manager to insert
  * @return true - Added Successfully
  * @return false - Error allocating memory
  */
-bool AddCustomer(Customer** head, Customer sourceCustomer) {
+bool AddManager(Manager** head, Manager sourceManager) {
 
-	Customer* newCustomer = (Customer*)malloc(sizeof(Customer));
+	Manager* newManager = (Manager*)malloc(sizeof(Manager));
 
-	if (newCustomer == NULL) {
-		free(newCustomer);
+	if (newManager == NULL) {
+		free(newManager);
 		return false;
 	}
 
-	*newCustomer = sourceCustomer;
+	*newManager = sourceManager;
 
 	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
-		*head = newCustomer;
+		*head = newManager;
 		return true;
 	}
 
-	Customer* last = *head;
+	Manager* last = *head;
 
 	while (last->next != NULL) {
 		last = last->next;
 	}
-	last->next = newCustomer;
+	last->next = newManager;
 	return true;
 }
 
 /**
- * Gets the Customer pointer in a linked list by its index.
+ * Gets the Manager pointer in a linked list by its index.
  * 
  * @param List head
- * @param Customer index
- * @return Customer pointer with the specified index
+ * @param Manager index
+ * @return Manager pointer with the specified index
  */
-Customer* GetCustomer(Customer* head, int index) {
+Manager* GetManager(Manager* head, int index) {
 
 	//TODO Do something about Empty lists
 
-	Customer* current = head;
+	Manager* current = head;
 
 	for (int i = 0; i < index; i++)
 	{

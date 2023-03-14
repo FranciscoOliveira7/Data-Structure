@@ -6,6 +6,9 @@
  * @date   March 2023
  *********************************************************************/
 
+#include <stdlib.h>
+#include <stdbool.h>
+
 #ifndef CUSTOMER_H_
 #define CUSTOMER_H_
 
@@ -16,7 +19,9 @@
 	typedef struct Customer Customer;
 	struct Customer {
 		int id;
-		char name[NAME_SIZE], nif[NIF_SIZE], adress[ADRESS_SIZE];
+		char name[NAME_SIZE];
+		char nif[NIF_SIZE];
+		char adress[ADRESS_SIZE];
 		float balance;
 		Customer* next;
 	};
@@ -32,12 +37,12 @@
 	bool AddCustomer(Customer** head, Customer sourceCustomer);
 
 	/**
-	 * Finds the Customer in a linked list by its index.
+	 * Gets the Customer pointer in a linked list by its index.
 	 *
 	 * @param List head
 	 * @param Customer index
-	 * @return Customer with the specified index
+	 * @return Customer pointer with the specified index
 	 */
-	Customer FindCustomer(Customer* head, int index);
+	Customer* GetCustomer(Customer* head, int index);
 
 #endif

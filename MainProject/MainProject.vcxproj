@@ -128,10 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Customer.c" />
+    <ClCompile Include="Manager.c" />
     <ClCompile Include="Program.c" />
+    <ClCompile Include="Transport.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Customer.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="Transport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
