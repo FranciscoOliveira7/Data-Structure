@@ -6,24 +6,33 @@
  * @date   March 2023
  *********************************************************************/
 
-#include "Customer.h"
 #include <stdlib.h>
+#include <stdbool.h>
+#include "Customer.h"
 
 /**
- * Adds a new Costumer to the linked list.
- * 
+ * Appends a new Customer to the linked list.
+ *
  * @param List Head
- * @param Costumer to insert
+ * @param Customer to insert
+ * @return true - Added Successfully
+ * @return false - Error allocating memory
  */
-void AddCustomer(Customer** head, Customer sourceCostumer) {
+bool AddCustomer(Customer** head, Customer sourceCustomer) {
 
-	Customer* newCostumer = (Customer*)malloc(sizeof(Customer));
+	Customer* newCustomer = (Customer*)malloc(sizeof(Customer));
 
-	newCostumer = &sourceCostumer;
+	if (newCustomer == NULL) {
+		free(newCustomer);
+		return false;
+	}
 
+	*newCustomer = sourceCustomer;
+
+	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
-		*head = &sourceCostumer;
-		return;
+		*head = newCustomer;
+		return true;
 	}
 
 	Customer* last = *head;
@@ -31,17 +40,27 @@ void AddCustomer(Customer** head, Customer sourceCostumer) {
 	while (last->next != NULL) {
 		last = last->next;
 	}
-	last->next = &sourceCostumer;
+	last->next = newCustomer;
+	return true;
 }
 
+/**
+ * Finds the Customer in a linked list by its index.
+ * 
+ * @param List head
+ * @param Customer index
+ * @return Customer with the specified index
+ */
 Customer FindCustomer(Customer* head, int index) {
+
+	//TODO Do something about Empty lists
 
 	Customer* current = head;
 
 	for (int i = 0; i < index; i++)
 	{
-		current
+		current = current->next;
 	}
 
-	return 
+	return *current;
 }

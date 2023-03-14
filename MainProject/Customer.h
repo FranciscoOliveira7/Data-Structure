@@ -21,9 +21,23 @@
 		Customer* next;
 	};
 
+	/**
+	 * Appends a new Customer to the linked list.
+	 *
+	 * @param List Head
+	 * @param Customer to insert
+	 * @return true - Added Successfully
+	 * @return false - Error allocating memory
+	 */
+	bool AddCustomer(Customer** head, Customer sourceCustomer);
 
-	void AddCustomer(Customer** head, Customer sourceCostumer);
-
+	/**
+	 * Finds the Customer in a linked list by its index.
+	 *
+	 * @param List head
+	 * @param Customer index
+	 * @return Customer with the specified index
+	 */
 	Customer FindCustomer(Customer* head, int index);
 
 #endif
