@@ -23,7 +23,7 @@ int main() {
 
 	Customer c3;
 
-	c3 = FindCustomer(customers, 0);
+	c3 = FindCustomer(customers, 1);
 
 	//printf("Balance: %.2f", costumers->balance);
 

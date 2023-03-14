@@ -21,6 +21,7 @@ void AddCustomer(Customer** head, Customer sourceCostumer) {
 
 	newCostumer = &sourceCostumer;
 
+	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
 		*head = &sourceCostumer;
 		return;
@@ -36,12 +37,14 @@ void AddCustomer(Customer** head, Customer sourceCostumer) {
 
 Customer FindCustomer(Customer* head, int index) {
 
+	//TODO Do something about Empty lists
+
 	Customer* current = head;
 
 	for (int i = 0; i < index; i++)
 	{
-		current
+		current = current->next;
 	}
 
-	return 
+	return *current;
 }
