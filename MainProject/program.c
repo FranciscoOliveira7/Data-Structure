@@ -6,21 +6,16 @@
  * @date   March 2023
  *********************************************************************/
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "Customer.h"
 #include "Manager.h"
 #include "Transport.h"
 
 int main() {
 
-	TransportType t = bus;
-
 	Customer* customers = NULL; //Costumer linked list inicialization
 
-	Customer c1 = { 69420, "dwdw", "dwd", "dwdw", 2, NULL };
-	Customer c2 = { 12345, "dydfy", "breb", "sdf", 69, NULL };
+	Customer c1 = { "dwdw", "dwd", "dwdw", 69420, NULL };
+	Customer c2 = { "dydfy", "breb", "sdf", 12345, NULL };
 
 	//Manager m2 = { 12345, "dydfy", "breb", 69, NULL };
 
@@ -38,5 +33,10 @@ int main() {
 
 	//printf("Balance: %.2f", costumers->balance);
 
-	return GetCustomer(customers, 0)->id;
+	if (ReadCostumerFiles(&customers) == 1)
+	{
+		printf("\n cum");
+	}
+
+	return (int)GetCustomer(customers, 0)->balance;
 }

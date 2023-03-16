@@ -18,6 +18,7 @@
  */
 bool AddCustomer(Customer** head, Customer sourceCustomer) {
 
+	//Creates a new space in memory to Allocate the customer
 	Customer* newCustomer = (Customer*)malloc(sizeof(Customer));
 
 	if (newCustomer == NULL) {
@@ -33,6 +34,7 @@ bool AddCustomer(Customer** head, Customer sourceCustomer) {
 		return true;
 	}
 
+	//Else finds the last element of the list
 	Customer* last = *head;
 
 	while (last->next != NULL) {
@@ -61,4 +63,40 @@ Customer* GetCustomer(Customer* head, int index) {
 	}
 
 	return current;
+}
+
+/**
+ * @author Francisco
+ * 
+ * Reads all the customers from a file into a list.
+ * 
+ * @param List Head
+ * @return 1 - Readed Successfully
+ * @return 2 - Error on sscanf_s
+ * @return 3 - Error opening file
+ */
+int ReadCostumerFiles(Customer** head) {
+	Customer current = { 0 };
+
+	FILE* file;
+
+	if (fopen_s(&file, CUSTOMER_DIR, "r"))
+	{
+		return 3;
+	}
+
+	char buffer[256];
+	while (fgets(buffer, sizeof(buffer), file) != NULL)
+	{
+		if (sscanf_s(buffer, "%[^;];%[^;];%[^;];%f\n",
+			&current.name, &current.nif, &current.adress, &current.balance) == 2)
+
+			return 2;
+
+		current.next = NULL;
+		AddCustomer(head, current);
+	}
+
+	fclose(file);
+	return 1;
 }

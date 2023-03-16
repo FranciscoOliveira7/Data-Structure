@@ -28,8 +28,7 @@
 
 	typedef struct Transport Transport;
 	struct Transport {
-		int id;
-		TransportType typo;
+		TransportType type;
 		float cargaBateria;
 		float custoAluguer;
 		char localizacao[LOCATION_SIZE];

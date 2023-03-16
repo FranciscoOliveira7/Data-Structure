@@ -19,11 +19,9 @@
 
 	typedef struct Manager Manager;
 	struct Manager {
-		int id;
 		char name[NAME_SIZE];
 		char email[EMAIL_SIZE];
 		char password[PASSWORD_SIZE];
-		char adress[ADRESS_SIZE];
 		Manager* next;
 	};
 
