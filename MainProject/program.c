@@ -19,8 +19,8 @@ int main() {
 
 	//Manager m2 = { 12345, "dydfy", "breb", 69, NULL };
 
-	AddCustomer(&customers, c1);
-	AddCustomer(&customers, c2);
+	//AddCustomer(&customers, c1);
+	//AddCustomer(&customers, c2);
 
 	//while (1 + 1 == 2)
 	//{
@@ -33,10 +33,15 @@ int main() {
 
 	//printf("Balance: %.2f", costumers->balance);
 
-	if (ReadCostumerFiles(&customers) == 1)
+	if (ReadCostumerFiles(&customers) != 1)
 	{
-		printf("\n cum");
+		printf("\n error");
 	}
 
-	return (int)GetCustomer(customers, 0)->balance;
+	if (SaveCustomersFiles(customers) != 1)
+	{
+		printf("\n error");
+	}
+
+	return (int)GetCustomer(customers, 5)->balance;
 }

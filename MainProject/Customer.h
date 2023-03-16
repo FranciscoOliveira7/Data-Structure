@@ -6,6 +6,8 @@
  * @date   March 2023
  *********************************************************************/
 
+#pragma warning(disable : 4996)
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -13,7 +15,8 @@
 #ifndef CUSTOMER_H_
 #define CUSTOMER_H_
 
-	#define CUSTOMER_DIR "Data/ReadOnly/customer.txt"
+	#define CUSTOMER_TEXT_DIR "Data\\ReadOnly\\customers.txt"
+	#define CUSTOMER_BIN_DIR "Data\\Saved\\customers.txt"
 
 	#define NAME_SIZE 40
 	#define NIF_SIZE 15
@@ -44,6 +47,7 @@
 	 * @param List head
 	 * @param Customer index
 	 * @return Customer pointer with the specified index
+	 * @return NULL if the list is empty
 	 */
 	Customer* GetCustomer(Customer* head, int index);
 
@@ -54,9 +58,22 @@
 	 *
 	 * @param List Head
 	 * @return 1 - Readed Successfully
-	 * @return 2 - Error on sscanf_s
-	 * @return 3 - Error opening file
+	 * @return 2 - Error opening file
+	 * @return 3 - Error on sscanf
 	 */
-	int ReadCostumerFiles(Customer** head);
+	int ReadCostumersFile(Customer** head);
+
+	/**
+	 * @author Francisco
+	 *
+	 * Saves all the customers from a list into a file.
+	 *
+	 * @param List Head
+	 * @return 1 - Saved Successfully
+	 * @return 2 - Error opening file
+	 * @return 3 - Error on fprintf
+	 * @return 4 - The list is empty
+	 */
+	int SaveCustomersAsFile(Customer* head);
 
 #endif

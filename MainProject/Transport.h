@@ -23,7 +23,8 @@
 
 	typedef enum {
 		bus,
-		bicicle
+		bicycle,
+		scooter
 	} TransportType;
 
 	typedef struct Transport Transport;
