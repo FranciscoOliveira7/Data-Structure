@@ -16,16 +16,18 @@
  * @return true - Added Successfully
  * @return false - Error allocating memory
  */
-bool AddManager(Manager** head, Manager sourceManager) {
+bool AddManager(ManagerList** head, Manager sourceManager) {
 
-	Manager* newManager = (Manager*)malloc(sizeof(Manager));
+	//Creates a new space in memory to Allocate the manager
+	ManagerList* newManager = (ManagerList*)malloc(sizeof(Manager));
 
 	if (newManager == NULL) {
 		free(newManager);
 		return false;
 	}
 
-	*newManager = sourceManager;
+	newManager->manager = sourceManager;
+	newManager->next = NULL;
 
 	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
@@ -33,7 +35,8 @@ bool AddManager(Manager** head, Manager sourceManager) {
 		return true;
 	}
 
-	Manager* last = *head;
+	//Else finds the last element of the list
+	ManagerList* last = *head;
 
 	while (last->next != NULL) {
 		last = last->next;
@@ -49,11 +52,11 @@ bool AddManager(Manager** head, Manager sourceManager) {
  * @param Manager index
  * @return Manager pointer with the specified index
  */
-Manager* GetManager(Manager* head, int index) {
+ManagerList* GetManager(ManagerList* head, int index) {
 
 	//TODO Do something about Empty lists
 
-	Manager* current = head;
+	ManagerList* current = head;
 
 	for (int i = 0; i < index; i++)
 	{

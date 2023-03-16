@@ -12,10 +12,10 @@
 
 int main() {
 
-	Customer* customers = NULL; //Costumer linked list inicialization
+	CustomerList* customers = NULL; //Costumer linked list inicialization
 
-	Customer c1 = { "dwdw", "dwd", "dwdw", 69420, NULL };
-	Customer c2 = { "dydfy", "breb", "sdf", 12345, NULL };
+	Customer c1 = { "dwdw", "dwd", "dwdw", 69420 };
+	Customer c2 = { "dydfy", "breb", "sdf", 12345 };
 
 	//Manager m2 = { 12345, "dydfy", "breb", 69, NULL };
 
@@ -33,15 +33,15 @@ int main() {
 
 	//printf("Balance: %.2f", costumers->balance);
 
-	if (ReadCostumerFiles(&customers) != 1)
+	if (ReadCostumersFile(&customers) != 1)
 	{
 		printf("\n error");
 	}
 
-	if (SaveCustomersFiles(customers) != 1)
+	if (SaveCustomersAsFile(customers) != 1)
 	{
 		printf("\n error");
 	}
 
-	return (int)GetCustomer(customers, 5)->balance;
+	return (int)GetCustomer(customers, 5)->customer.balance;
 }

@@ -22,13 +22,17 @@
 	#define NIF_SIZE 15
 	#define ADRESS_SIZE 80
 
-	typedef struct Customer Customer;
-	struct Customer {
+	typedef struct {
 		char name[NAME_SIZE];
 		char nif[NIF_SIZE];
 		char adress[ADRESS_SIZE];
 		float balance;
-		Customer* next;
+	} Customer;
+
+	typedef struct CustomerList CustomerList;
+	struct CustomerList {
+		Customer customer;
+		CustomerList* next;
 	};
 
 	/**
@@ -39,7 +43,7 @@
 	 * @return true - Added Successfully
 	 * @return false - Error allocating memory
 	 */
-	bool AddCustomer(Customer** head, Customer sourceCustomer);
+	bool AddCustomer(CustomerList** head, Customer sourceCustomer);
 
 	/**
 	 * Gets the Customer pointer in a linked list by its index.
@@ -49,7 +53,7 @@
 	 * @return Customer pointer with the specified index
 	 * @return NULL if the list is empty
 	 */
-	Customer* GetCustomer(Customer* head, int index);
+	CustomerList* GetCustomer(CustomerList* head, int index);
 
 	/**
 	 * @author Francisco
@@ -61,7 +65,7 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - Error on sscanf
 	 */
-	int ReadCostumersFile(Customer** head);
+	int ReadCostumersFile(CustomerList** head);
 
 	/**
 	 * @author Francisco
@@ -71,9 +75,8 @@
 	 * @param List Head
 	 * @return 1 - Saved Successfully
 	 * @return 2 - Error opening file
-	 * @return 3 - Error on fprintf
-	 * @return 4 - The list is empty
+	 * @return 3 - The list is empty
 	 */
-	int SaveCustomersAsFile(Customer* head);
+	int SaveCustomersAsFile(CustomerList* head);
 
 #endif

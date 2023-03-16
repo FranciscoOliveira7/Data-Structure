@@ -27,13 +27,17 @@
 		scooter
 	} TransportType;
 
-	typedef struct Transport Transport;
-	struct Transport {
+	typedef struct {
 		TransportType type;
 		float cargaBateria;
 		float custoAluguer;
 		char localizacao[LOCATION_SIZE];
-		Transport* next;
+	} Transport;
+
+	typedef struct TransportList TransportList;
+	struct TransportList {
+		Transport transport;
+		TransportList* next;
 	};
 
 	/**
@@ -44,7 +48,7 @@
 	 * @return true - Added Successfully
 	 * @return false - Error allocating memory
 	 */
-	bool AddTransport(Transport** head, Transport sourceTransport);
+	bool AddTransport(TransportList** head, Transport sourceTransport);
 
 	/**
 	 * Gets the Transport pointer in a linked list by its index.
@@ -53,6 +57,6 @@
 	 * @param Transport index
 	 * @return Transport pointer with the specified index
 	 */
-	Transport* GetTransport(Transport* head, int index);
+	TransportList* GetTransport(TransportList* head, int index);
 
 #endif

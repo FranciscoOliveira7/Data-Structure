@@ -17,12 +17,16 @@
 	#define PASSWORD_SIZE 30
 	#define ADRESS_SIZE 80
 
-	typedef struct Manager Manager;
-	struct Manager {
+	typedef struct {
 		char name[NAME_SIZE];
 		char email[EMAIL_SIZE];
 		char password[PASSWORD_SIZE];
-		Manager* next;
+	} Manager;
+
+	typedef struct ManagerList ManagerList;
+	struct ManagerList {
+		Manager manager;
+		ManagerList* next;
 	};
 
 	/**
@@ -33,7 +37,7 @@
 	 * @return true - Added Successfully
 	 * @return false - Error allocating memory
 	 */
-	bool AddManager(Manager** head, Manager sourceManager);
+	bool AddManager(ManagerList** head, Manager sourceManager);
 
 	/**
 	 * Gets the Manager pointer in a linked list by its index.
@@ -42,6 +46,6 @@
 	 * @param Manager index
 	 * @return Manager pointer with the specified index
 	 */
-	Manager* GetManager(Manager* head, int index);
+	ManagerList* GetManager(ManagerList* head, int index);
 
 #endif

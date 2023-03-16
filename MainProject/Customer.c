@@ -16,17 +16,18 @@
  * @return true - Added Successfully
  * @return false - Error allocating memory
  */
-bool AddCustomer(Customer** head, Customer sourceCustomer) {
+bool AddCustomer(CustomerList** head, Customer sourceCustomer) {
 
 	//Creates a new space in memory to Allocate the customer
-	Customer* newCustomer = (Customer*)malloc(sizeof(Customer));
+	CustomerList* newCustomer = (CustomerList*)malloc(sizeof(CustomerList));
 
 	if (newCustomer == NULL) {
 		free(newCustomer);
 		return false;
 	}
 
-	*newCustomer = sourceCustomer;
+	newCustomer->customer = sourceCustomer;
+	newCustomer->next = NULL;
 
 	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
@@ -35,7 +36,7 @@ bool AddCustomer(Customer** head, Customer sourceCustomer) {
 	}
 
 	//Else finds the last element of the list
-	Customer* last = *head;
+	CustomerList* last = *head;
 
 	while (last->next != NULL) {
 		last = last->next;
@@ -52,12 +53,12 @@ bool AddCustomer(Customer** head, Customer sourceCustomer) {
  * @return Customer pointer with the specified index
  * @return NULL if the list is empty
  */
-Customer* GetCustomer(Customer* head, int index) {
+CustomerList* GetCustomer(CustomerList* head, int index) {
 
 	//Checks if the list is empty
 	if (head == NULL) return NULL;
 
-	Customer* current = head;
+	CustomerList* current = head;
 
 	for (int i = 0; i < index; i++)
 	{
@@ -77,7 +78,7 @@ Customer* GetCustomer(Customer* head, int index) {
  * @return 2 - Error opening file
  * @return 3 - Error on sscanf
  */
-int ReadCostumersFile(Customer** head) {
+int ReadCostumersFile(CustomerList** head) {
 
 	Customer current = { 0 };
 
@@ -95,7 +96,6 @@ int ReadCostumersFile(Customer** head) {
 			current.name, current.nif, current.adress, &current.balance) != 4)
 			return 3;
 
-		current.next = NULL;
 		AddCustomer(head, current);
 	}
 
@@ -111,27 +111,24 @@ int ReadCostumersFile(Customer** head) {
  * @param List Head
  * @return 1 - Saved Successfully
  * @return 2 - Error opening file
- * @return 3 - Error on fprintf
- * @return 4 - The list is empty
+ * @return 3 - The list is empty
  */
-int SaveCustomersAsFile(Customer* head) {
+int SaveCustomersAsFile(CustomerList* head) {
 
-	if (head == NULL) return 4;
+	if (head == NULL) return 3;
 
-	Customer* current = head;
+	CustomerList* current = head;
 
 	FILE* file;
 
-	fopen_s(&file, CUSTOMER_BIN_DIR, "w");
+	fopen_s(&file, CUSTOMER_BIN_DIR, "wb");
 
 	// Return 2 if the file wasn't open successfully
 	if (file == NULL) return 2;
 
 	do
 	{
-		if(fprintf(file, "%s;%s;%s;%f\n",
-			current->name, current->nif, current->adress, current->balance) <= 0)
-			return 3;
+		fwrite(&(current->customer), sizeof(CustomerList), 1, file);
 
 		current = current->next;
 	} while (current != NULL);
