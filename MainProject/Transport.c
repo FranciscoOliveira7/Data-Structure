@@ -172,8 +172,8 @@ int ReadTransportsFile(TransportList** head, const char* fileName) {
 	char buffer[256];
 	while (fgets(buffer, sizeof(buffer), file) != NULL)
 	{
-		if (sscanf(buffer, "%d;%d;%f;%f;%s\n",
-			&current.id, &current.type, &current.batteryLife, &current.price, current.localizacao) != 5)
+		if (sscanf(buffer, "%d;%d;%f;%f;%[^;];%d\n",
+			&current.id, &current.type, &current.batteryLife, &current.price, current.localizacao, &current.renter) != 6)
 			return 3;
 
 		AddTransport(head, current);

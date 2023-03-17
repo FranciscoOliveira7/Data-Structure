@@ -20,6 +20,10 @@ int main() {
 	printf("\n %d", ReadManagersFile(&managers, MANAGER_TEXT_DIR));
 	printf("\n %d", ReadTransportsFile(&transports, TRANSPORT_TEXT_DIR));
 
+	Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
+	Customer c2 = { 2, "dydfy", "breb", "sdf", 12345 };
+	Customer c3 = { 3, "ehg", "ertg", "fwef", 8994 };
+	Customer c4 = { 4, "kym", "myu", "bn", 345 };
 
 	Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
 	Customer c2 = { 2, "dydfy", "breb", "sdf", 12345 };

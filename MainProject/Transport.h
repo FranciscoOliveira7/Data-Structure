@@ -39,6 +39,7 @@
 		float batteryLife;
 		float price;
 		char localizacao[LOCATION_SIZE];
+		int renter; // -1 Used as Default N/A Value
 	} Transport;
 
 	typedef struct TransportList TransportList;
