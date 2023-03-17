@@ -9,7 +9,9 @@
 #include "Customer.h"
 
 /**
- * Appends a new Customer to the linked list.
+ * @author Francisco
+ *
+ * @brief Appends a new Customer to the linked list.
  *
  * @param List Head
  * @param Customer to insert
@@ -46,7 +48,9 @@ bool AddCustomer(CustomerList** head, Customer sourceCustomer) {
 }
 
 /**
- * Gets the Customer pointer in a linked list by its index.
+ * @author Francisco
+ *
+ * @brief Gets the Customer pointer in a linked list by its index.
  * 
  * @param List head
  * @param Customer index
@@ -71,20 +75,21 @@ CustomerList* GetCustomer(CustomerList* head, int index) {
 /**
  * @author Francisco
  *
- * Reads all the customers from a file into a list.
+ * @brief Reads all the customers from a file into a list.
  *
  * @param List Head
+ * @param File directory
  * @return 1 - Readed Successfully
  * @return 2 - Error opening file
  * @return 3 - Error on sscanf
  */
-int ReadCostumersFile(CustomerList** head) {
+int ReadCustomersFile(CustomerList** head, char* fileName) {
 
 	Customer current = { 0 };
 
 	FILE* file;
 
-	fopen_s(&file, CUSTOMER_TEXT_DIR, "r");
+	fopen_s(&file, fileName, "r");
 
 	// Return 2 if the file wasn't open successfully
 	if (file == NULL) return 2;
@@ -92,8 +97,8 @@ int ReadCostumersFile(CustomerList** head) {
 	char buffer[256];
 	while (fgets(buffer, sizeof(buffer), file) != NULL)
 	{
-		if (sscanf(buffer, "%[^;];%[^;];%[^;];%f\n",
-			current.name, current.nif, current.adress, &current.balance) != 4)
+		if (sscanf(buffer, "%d;%[^;];%[^;];%[^;];%f\n",
+			&current.id, current.name, current.nif, current.adress, &current.balance) != 5)
 			return 3;
 
 		AddCustomer(head, current);
@@ -106,14 +111,15 @@ int ReadCostumersFile(CustomerList** head) {
 /**
  * @author Francisco
  *
- * Saves all the customers from a list into a file.
+ * @brief Saves all the customers from a list into a file.
  *
  * @param List Head
+ * @param File directory
  * @return 1 - Saved Successfully
  * @return 2 - Error opening file
  * @return 3 - The list is empty
  */
-int SaveCustomersAsFile(CustomerList* head) {
+int SaveCustomersAsFile(CustomerList* head, char* fileName) {
 
 	if (head == NULL) return 3;
 
@@ -121,7 +127,7 @@ int SaveCustomersAsFile(CustomerList* head) {
 
 	FILE* file;
 
-	fopen_s(&file, CUSTOMER_BIN_DIR, "wb");
+	fopen_s(&file, fileName, "wb");
 
 	// Return 2 if the file wasn't open successfully
 	if (file == NULL) return 2;
