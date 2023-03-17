@@ -29,6 +29,7 @@ bool AddManager(ManagerList** head, Manager sourceManager) {
 	}
 
 	newManager->manager = sourceManager;
+	newManager->previous = NULL;
 	newManager->next = NULL;
 
 	//If the list is empty, creates a new head to the list
@@ -44,7 +45,83 @@ bool AddManager(ManagerList** head, Manager sourceManager) {
 		last = last->next;
 	}
 	last->next = newManager;
+	last->next->previous = last;
 	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Remove a Manager from the linked list.
+ *
+ * @param List head
+ * @param Manager to remove
+ * @return true - Removed Successfully
+ * @return false - Manager doen't exist
+ */
+bool RemoveManager(ManagerList** head, ManagerList* sourceManager) {
+
+	if (sourceManager == NULL) return false;
+
+	if (*head == sourceManager) {
+		*head = sourceManager->next;
+		(*head)->previous = NULL;
+	}
+	else {
+		if (sourceManager->previous != NULL)
+			sourceManager->previous->next = sourceManager->next;
+
+		if (sourceManager->next != NULL)
+			sourceManager->next->previous = sourceManager->previous;
+	}
+
+	free(sourceManager);
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Edits a Manager from the linked list.
+ *
+ * @param Manager to edit
+ * @param New Manager
+ * @return true - Edited Successfully
+ * @return false - Manager doen't exist
+ */
+bool EditManager(ManagerList* manager, Manager newManager) {
+
+	if (manager == NULL) return false;
+
+	manager->manager = newManager;
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Finds manager by its id.
+ *
+ * @param List Head
+ * @param Manager id
+ * @return Manager pointer with the specified id
+ * @return NULL if not found
+ */
+ManagerList* FindManager(ManagerList* head, int id) {
+
+	if (head == NULL) return NULL;
+
+	ManagerList* current = head;
+
+	while (current != NULL)
+	{
+		if (current->manager.id == id) return current;
+		current = current->next;
+	}
+
+	return NULL;
 }
 
 /**
@@ -83,7 +160,7 @@ ManagerList* GetManager(ManagerList* head, int index) {
  * @return 2 - Error opening file
  * @return 3 - Error on sscanf
  */
-int ReadManagersFile(ManagerList** head, char* fileName) {
+int ReadManagersFile(ManagerList** head, const char* fileName) {
 
 	Manager current = { 0 };
 
@@ -119,7 +196,7 @@ int ReadManagersFile(ManagerList** head, char* fileName) {
  * @return 2 - Error opening file
  * @return 3 - The list is empty
  */
-int SaveManagersAsFile(ManagerList* head, char* fileName) {
+int SaveManagersAsFile(ManagerList* head, const char* fileName) {
 
 	if (head == NULL) return 3;
 

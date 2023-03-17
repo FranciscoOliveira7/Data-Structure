@@ -33,6 +33,7 @@
 	typedef struct CustomerList CustomerList;
 	struct CustomerList {
 		Customer customer;
+		CustomerList* previous;
 		CustomerList* next;
 	};
 
@@ -51,12 +52,48 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Remove a Customer from the linked list.
+	 *
+	 * @param List head
+	 * @param Customer to remove
+	 * @return true - Removed Successfully
+	 * @return false - Customer doen't exist
+	 */
+	bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Edits a Customer from the linked list.
+	 *
+	 * @param Customer to edit
+	 * @param New Customer
+	 * @return true - Edited Successfully
+	 * @return false - Customer doen't exist
+	 */
+	bool EditCustomer(CustomerList* customer, Customer newCustomer);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Finds customer by its id.
+	 *
+	 * @param List Head
+	 * @param Customer id
+	 * @return Customer pointer with the specified id
+	 * @return NULL if not found
+	 */
+	CustomerList* FindCustomer(CustomerList* head, int id);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Gets the Customer pointer in a linked list by its index.
 	 *
 	 * @param List head
 	 * @param Customer index
 	 * @return Customer pointer with the specified index
-	 * @return NULL if the list is empty
+	 * @return NULL if not found
 	 */
 	CustomerList* GetCustomer(CustomerList* head, int index);
 
@@ -71,7 +108,7 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - Error on sscanf
 	 */
-	int ReadCustomersFile(CustomerList** head, char* fileName);
+	int ReadCustomersFile(CustomerList** head, const char* fileName);
 
 	/**
 	 * @author Francisco
@@ -84,6 +121,6 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - The list is empty
 	 */
-	int SaveCustomersAsFile(CustomerList* head, char* fileName);
+	int SaveCustomersAsFile(CustomerList* head, const char* fileName);
 
 #endif

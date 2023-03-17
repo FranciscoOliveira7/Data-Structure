@@ -32,6 +32,7 @@
 	typedef struct ManagerList ManagerList;
 	struct ManagerList {
 		Manager manager;
+		ManagerList* previous;
 		ManagerList* next;
 	};
 
@@ -50,12 +51,48 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Remove a Manager from the linked list.
+	 *
+	 * @param List head
+	 * @param Manager to remove
+	 * @return true - Removed Successfully
+	 * @return false - Manager doen't exist
+	 */
+	bool RemoveManager(ManagerList** head, ManagerList* sourceManager);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Edits a Manager from the linked list.
+	 *
+	 * @param Manager to edit
+	 * @param New Manager
+	 * @return true - Edited Successfully
+	 * @return false - Manager doen't exist
+	 */
+	bool EditManager(ManagerList* manager, Manager newManager);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Finds manager by its id.
+	 *
+	 * @param List Head
+	 * @param Manager id
+	 * @return Manager pointer with the specified id
+	 * @return NULL if not found
+	 */
+	ManagerList* FindManager(ManagerList* head, int id);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Gets the Manager pointer in a linked list by its index.
 	 *
 	 * @param List head
 	 * @param Manager index
 	 * @return Manager pointer with the specified index
-	 * @return NULL if the list is empty
+	 * @return NULL if not found
 	 */
 	ManagerList* GetManager(ManagerList* head, int index);
 
@@ -70,7 +107,7 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - Error on sscanf
 	 */
-	int ReadManagersFile(ManagerList** head, char* fileName);
+	int ReadManagersFile(ManagerList** head, const char* fileName);
 
 	/**
 	 * @author Francisco
@@ -83,6 +120,6 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - The list is empty
 	 */
-	int SaveManagersAsFile(ManagerList* head, char* fileName);
+	int SaveManagersAsFile(ManagerList* head, const char* fileName);
 
 #endif

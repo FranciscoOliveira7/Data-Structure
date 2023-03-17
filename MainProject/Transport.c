@@ -27,6 +27,7 @@ bool AddTransport(TransportList** head, Transport sourceTransport) {
 	}
 
 	newTransport->transport = sourceTransport;
+	newTransport->previous = NULL;
 	newTransport->next = NULL;
 
 	//If the list is empty, creates a new head to the list
@@ -42,7 +43,83 @@ bool AddTransport(TransportList** head, Transport sourceTransport) {
 		last = last->next;
 	}
 	last->next = newTransport;
+	last->next->previous = last;
 	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Remove a Transport from the linked list.
+ *
+ * @param List head
+ * @param Transport to remove
+ * @return true - Removed Successfully
+ * @return false - Transport doen't exist
+ */
+bool RemoveTransport(TransportList** head, TransportList* sourceTransport) {
+
+	if (sourceTransport == NULL) return false;
+
+	if (*head == sourceTransport) {
+		*head = sourceTransport->next;
+		(*head)->previous = NULL;
+	}
+	else {
+		if (sourceTransport->previous != NULL)
+			sourceTransport->previous->next = sourceTransport->next;
+
+		if (sourceTransport->next != NULL)
+			sourceTransport->next->previous = sourceTransport->previous;
+	}
+
+	free(sourceTransport);
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Edits a Transport from the linked list.
+ *
+ * @param Transport to edit
+ * @param New Transport
+ * @return true - Edited Successfully
+ * @return false - Transport doen't exist
+ */
+bool EditTransport(TransportList* transport, Transport newTransport) {
+
+	if (transport == NULL) return false;
+
+	transport->transport = newTransport;
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Finds transport by its id.
+ *
+ * @param List Head
+ * @param Transport id
+ * @return Transport pointer with the specified id
+ * @return NULL if not found
+ */
+TransportList* FindTransport(TransportList* head, int id) {
+
+	if (head == NULL) return NULL;
+
+	TransportList* current = head;
+
+	while (current != NULL)
+	{
+		if (current->transport.id == id) return current;
+		current = current->next;
+	}
+
+	return NULL;
 }
 
 /**
@@ -53,7 +130,7 @@ bool AddTransport(TransportList** head, Transport sourceTransport) {
  * @param List head
  * @param Transport index
  * @return Transport pointer with the specified index
- * @return NULL if the list is empty
+ * @return NULL if not found
  */
 TransportList* GetTransport(TransportList* head, int index) {
 
@@ -81,7 +158,7 @@ TransportList* GetTransport(TransportList* head, int index) {
  * @return 2 - Error opening file
  * @return 3 - Error on sscanf
  */
-int ReadTransportsFile(TransportList** head, char* fileName) {
+int ReadTransportsFile(TransportList** head, const char* fileName) {
 
 	Transport current = { 0 };
 
@@ -117,7 +194,7 @@ int ReadTransportsFile(TransportList** head, char* fileName) {
  * @return 2 - Error opening file
  * @return 3 - The list is empty
  */
-int SaveTransportsAsFile(TransportList* head, char* fileName) {
+int SaveTransportsAsFile(TransportList* head, const char* fileName) {
 
 	if (head == NULL) return 3;
 

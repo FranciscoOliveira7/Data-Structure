@@ -44,6 +44,7 @@
 	typedef struct TransportList TransportList;
 	struct TransportList {
 		Transport transport;
+		TransportList* previous;
 		TransportList* next;
 	};
 
@@ -62,12 +63,48 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Remove a Transport from the linked list.
+	 *
+	 * @param List head
+	 * @param Transport to remove
+	 * @return true - Removed Successfully
+	 * @return false - Transport doen't exist
+	 */
+	bool RemoveTransport(TransportList** head, TransportList* sourceTransport);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Edits a Transport from the linked list.
+	 *
+	 * @param Transport to edit
+	 * @param New Transport
+	 * @return true - Edited Successfully
+	 * @return false - Transport doen't exist
+	 */
+	bool EditTransport(TransportList* transport, Transport newTransport);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Finds transport by its id.
+	 *
+	 * @param List Head
+	 * @param Transport id
+	 * @return Transport pointer with the specified id
+	 * @return NULL if not found
+	 */
+	TransportList* FindTransport(TransportList* head, int id);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Gets the Transport pointer in a linked list by its index.
 	 *
 	 * @param List head
 	 * @param Transport index
 	 * @return Transport pointer with the specified index
-	 * @return NULL if the list is empty
+	 * @return NULL if not found
 	 */
 	TransportList* GetTransport(TransportList* head, int index);
 
@@ -82,7 +119,7 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - Error on sscanf
 	 */
-	int ReadTransportsFile(TransportList** head, char* fileName);
+	int ReadTransportsFile(TransportList** head, const char* fileName);
 
 	/**
 	 * @author Francisco
@@ -95,6 +132,6 @@
 	 * @return 2 - Error opening file
 	 * @return 3 - The list is empty
 	 */
-	int SaveTransportsAsFile(TransportList* head, char* fileName);
+	int SaveTransportsAsFile(TransportList* head, const char* fileName);
 
 #endif

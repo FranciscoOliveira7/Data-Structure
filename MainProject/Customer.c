@@ -29,6 +29,7 @@ bool AddCustomer(CustomerList** head, Customer sourceCustomer) {
 	}
 
 	newCustomer->customer = sourceCustomer;
+	newCustomer->previous = NULL;
 	newCustomer->next = NULL;
 
 	//If the list is empty, creates a new head to the list
@@ -44,7 +45,83 @@ bool AddCustomer(CustomerList** head, Customer sourceCustomer) {
 		last = last->next;
 	}
 	last->next = newCustomer;
+	last->next->previous = last;
 	return true;
+}
+
+/**
+ * @author Francisco
+ * 
+ * @brief Remove a Customer from the linked list.
+ * 
+ * @param List head
+ * @param Customer to remove
+ * @return true - Removed Successfully
+ * @return false - Customer doen't exist
+ */
+bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
+
+	if (sourceCustomer == NULL) return false;
+
+	if (*head == sourceCustomer) { 
+		*head = sourceCustomer->next;
+		(*head)->previous = NULL;
+	}
+	else {
+		if (sourceCustomer->previous != NULL)
+			sourceCustomer->previous->next = sourceCustomer->next;
+
+		if (sourceCustomer->next != NULL)
+			sourceCustomer->next->previous = sourceCustomer->previous;
+	}
+
+	free(sourceCustomer);
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Edits a Customer from the linked list.
+ *
+ * @param Customer to edit
+ * @param New Customer
+ * @return true - Edited Successfully
+ * @return false - Customer doen't exist
+ */
+bool EditCustomer(CustomerList* customer, Customer newCustomer) {
+
+	if (customer == NULL) return false;
+
+	customer->customer = newCustomer;
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ * 
+ * @brief Finds customer by its id.
+ * 
+ * @param List Head
+ * @param Customer id
+ * @return Customer pointer with the specified id
+ * @return NULL if not found
+ */
+CustomerList* FindCustomer(CustomerList* head, int id) {
+
+	if (head == NULL) return NULL;
+
+	CustomerList* current = head;
+
+	while (current != NULL)
+	{
+		if (current->customer.id == id) return current;
+		current = current->next;
+	}
+
+	return NULL;
 }
 
 /**
@@ -55,7 +132,7 @@ bool AddCustomer(CustomerList** head, Customer sourceCustomer) {
  * @param List head
  * @param Customer index
  * @return Customer pointer with the specified index
- * @return NULL if the list is empty
+ * @return NULL if not found
  */
 CustomerList* GetCustomer(CustomerList* head, int index) {
 
@@ -83,7 +160,7 @@ CustomerList* GetCustomer(CustomerList* head, int index) {
  * @return 2 - Error opening file
  * @return 3 - Error on sscanf
  */
-int ReadCustomersFile(CustomerList** head, char* fileName) {
+int ReadCustomersFile(CustomerList** head, const char* fileName) {
 
 	Customer current = { 0 };
 
@@ -119,7 +196,7 @@ int ReadCustomersFile(CustomerList** head, char* fileName) {
  * @return 2 - Error opening file
  * @return 3 - The list is empty
  */
-int SaveCustomersAsFile(CustomerList* head, char* fileName) {
+int SaveCustomersAsFile(CustomerList* head, const char* fileName) {
 
 	if (head == NULL) return 3;
 
