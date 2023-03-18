@@ -81,6 +81,85 @@ bool RemoveTransport(TransportList** head, TransportList* sourceTransport) {
 /**
  * @author Francisco
  *
+ * @brief Sort Transports by id.
+ *
+ * @param List head
+ * @return true - Sorted Successfully
+ * @return false - Transport doen't exist
+ */
+bool SortTransportsById(TransportList* head) {
+
+	if (head == NULL) return false;
+
+	bool isSorted = false;
+	TransportList* current = NULL;
+
+	while (!isSorted)
+	{
+		isSorted = true;
+		current = head;
+		while (current->next != NULL)
+		{
+			if (current->transport.id > current->next->transport.id) {
+				SwapTransport(current, current->next);
+				isSorted = false;
+			}
+			current = current->next;
+		}
+	}
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Sort Transports by battery life.
+ *
+ * @param List head
+ * @return true - Sorted Successfully
+ * @return false - Transport doen't exist
+ */
+bool SortTransportsByBatteryLife(TransportList* head) {
+
+	if (head == NULL) return false;
+
+	bool isSorted = false;
+	TransportList* current = NULL;
+
+	while (!isSorted)
+	{
+		isSorted = true;
+		current = head;
+		while (current->next != NULL)
+		{
+			if (current->transport.batteryLife < current->next->transport.batteryLife) {
+				SwapTransport(current, current->next);
+				isSorted = false;
+			}
+			current = current->next;
+		}
+	}
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Swaps between two Transports from linked list.
+ *
+ * @param Transport 1
+ * @param Transport 2
+ */
+void SwapTransport(TransportList* transport1, TransportList* transport2) {
+
+	Transport aux = transport1->transport;
+	transport1->transport = transport2->transport;
+	transport2->transport = aux;
+}
+
+/**
+ * @author Francisco
+ *
  * @brief Edits a Transport from the linked list.
  *
  * @param Transport to edit
@@ -173,7 +252,7 @@ int ReadTransportsFile(TransportList** head, const char* fileName) {
 	while (fgets(buffer, sizeof(buffer), file) != NULL)
 	{
 		if (sscanf(buffer, "%d;%d;%f;%f;%[^;];%d\n",
-			&current.id, &current.type, &current.batteryLife, &current.price, current.localizacao, &current.renter) != 6)
+			&current.id, &current.type, &current.batteryLife, &current.price, current.location, &current.renter) != 6)
 			return 3;
 
 		AddTransport(head, current);

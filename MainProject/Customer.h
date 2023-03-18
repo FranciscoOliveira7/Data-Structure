@@ -6,21 +6,13 @@
  * @date   March 2023
  *********************************************************************/
 
-#pragma warning(disable : 4996)
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
+#include "Consts.h"
 
 #ifndef CUSTOMER_H_
 #define CUSTOMER_H_
 
 	#define CUSTOMER_TEXT_DIR "Data\\imported\\customers.txt"
 	#define CUSTOMER_BIN_DIR "Data\\saved\\customers.txt"
-
-	#define NAME_SIZE 40
-	#define NIF_SIZE 15
-	#define ADRESS_SIZE 80
 
 	typedef struct {
 		int id;
@@ -60,6 +52,27 @@
 	 * @return false - Customer doen't exist
 	 */
 	bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Sort Customers by id.
+	 *
+	 * @param List head
+	 * @return true - Sorted Successfully
+	 * @return false - Customer doen't exist
+	 */
+	bool SortCustomersById(CustomerList* head);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Swaps between two Customers from linked list.
+	 *
+	 * @param Customer 1
+	 * @param Customer 2
+	 */
+	void SwapCustomer(CustomerList* customer1, CustomerList* customer2);
 
 	/**
 	 * @author Francisco

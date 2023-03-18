@@ -83,6 +83,53 @@ bool RemoveManager(ManagerList** head, ManagerList* sourceManager) {
 /**
  * @author Francisco
  *
+ * @brief Sort Managers by id.
+ *
+ * @param List head
+ * @return true - Sorted Successfully
+ * @return false - Manager doen't exist
+ */
+bool SortManagersById(ManagerList* head) {
+
+	if (head == NULL) return false;
+
+	bool isSorted = false;
+	ManagerList* current = NULL;
+
+	while (!isSorted)
+	{
+		isSorted = true;
+		current = head;
+		while (current->next != NULL)
+		{
+			if (current->manager.id > current->next->manager.id) {
+				SwapManager(current, current->next);
+				isSorted = false;
+			}
+			current = current->next;
+		}
+	}
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Swaps between two Managers from linked list.
+ *
+ * @param Manager 1
+ * @param Manager 2
+ */
+void SwapManager(ManagerList* manager1, ManagerList* manager2) {
+
+	Manager aux = manager1->manager;
+	manager1->manager = manager2->manager;
+	manager2->manager = aux;
+}
+
+/**
+ * @author Francisco
+ *
  * @brief Edits a Manager from the linked list.
  *
  * @param Manager to edit

@@ -131,11 +131,14 @@
     <ClCompile Include="Manager.c" />
     <ClCompile Include="Program.c" />
     <ClCompile Include="Transport.c" />
+    <ClCompile Include="UI.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Consts.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Transport.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,21 +6,13 @@
  * @date   March 2023
  *********************************************************************/
 
-#pragma warning(disable : 4996)
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
+#include "Consts.h"
 
 #ifndef MANAGER_H_
 #define MANAGER_H_
 
 	#define MANAGER_TEXT_DIR "Data\\imported\\managers.txt"
 	#define MANAGER_BIN_DIR "Data\\saved\\managers.txt"
-
-	#define NAME_SIZE 40
-	#define EMAIL_SIZE 60
-	#define PASSWORD_SIZE 30
 
 	typedef struct {
 		int id;
@@ -59,6 +51,27 @@
 	 * @return false - Manager doen't exist
 	 */
 	bool RemoveManager(ManagerList** head, ManagerList* sourceManager);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Sort Managers by id.
+	 *
+	 * @param List head
+	 * @return true - Sorted Successfully
+	 * @return false - Manager doen't exist
+	 */
+	bool SortManagersById(ManagerList* head);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Swaps between two Managers from linked list.
+	 *
+	 * @param Manager 1
+	 * @param Manager 2
+	 */
+	void SwapManager(ManagerList* manager1, ManagerList* manager2);
 
 	/**
 	 * @author Francisco

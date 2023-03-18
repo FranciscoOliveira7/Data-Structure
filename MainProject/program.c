@@ -20,15 +20,10 @@ int main() {
 	printf("\n %d", ReadManagersFile(&managers, MANAGER_TEXT_DIR));
 	printf("\n %d", ReadTransportsFile(&transports, TRANSPORT_TEXT_DIR));
 
-	Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
-	Customer c2 = { 2, "dydfy", "breb", "sdf", 12345 };
-	Customer c3 = { 3, "ehg", "ertg", "fwef", 8994 };
-	Customer c4 = { 4, "kym", "myu", "bn", 345 };
-
-	Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
-	Customer c2 = { 2, "dydfy", "breb", "sdf", 12345 };
-	Customer c3 = { 3, "ehg", "ertg", "fwef", 8994 };
-	Customer c4 = { 4, "kym", "myu", "bn", 345 };
+	//Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
+	//Customer c2 = { 2, "dydfy", "breb", "sdf", 12345 };
+	//Customer c3 = { 3, "ehg", "ertg", "fwef", 8994 };
+	//Customer c4 = { 4, "kym", "myu", "bn", 345 };
 
 	// TODO: FIX GETBYINDEX FUNCTIONS
 
@@ -46,9 +41,17 @@ int main() {
 
 	//printf("\n %d", SaveTransportsAsFile(transports, TRANSPORT_BIN_DIR));
 
-	ManagerList* sample = FindManager(managers, 1);
+	CustomerList* sample = FindCustomer(customers, 2);
 
-	EditCustomer(sample, c1);
+	//EditCustomer(sample, c1);
+
+	RemoveCustomer(&customers, sample);
+
+	SwapCustomer(FindCustomer(customers, 1), FindCustomer(customers, 4));
+
+	SortCustomersById(customers);
+
+	SortTransportsByBatteryLife(transports);
 
 	return 0;
 }

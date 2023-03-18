@@ -82,6 +82,53 @@ bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
 
 /**
  * @author Francisco
+ * 
+ * @brief Sort Customers by id.
+ * 
+ * @param List head
+ * @return true - Sorted Successfully
+ * @return false - Customer doen't exist
+ */
+bool SortCustomersById(CustomerList* head) {
+	
+	if (head == NULL) return false;
+
+	bool isSorted = false;
+	CustomerList* current = NULL;
+
+	while (!isSorted)
+	{
+		isSorted = true;
+		current = head;
+		while (current->next != NULL)
+		{
+			if (current->customer.id > current->next->customer.id) {
+				SwapCustomer(current, current->next);
+				isSorted = false;
+			}
+			current = current->next;
+		}
+	}
+	return true;
+}
+
+/**
+ * @author Francisco
+ * 
+ * @brief Swaps between two Customers from linked list.
+ * 
+ * @param Customer 1
+ * @param Customer 2
+ */
+void SwapCustomer(CustomerList* customer1, CustomerList* customer2) {
+	
+	Customer aux = customer1->customer;
+	customer1->customer = customer2->customer;
+	customer2->customer = aux;
+}
+
+/**
+ * @author Francisco
  *
  * @brief Edits a Customer from the linked list.
  *

@@ -6,11 +6,7 @@
  * @date   March 2023
  *********************************************************************/
 
-#pragma warning(disable : 4996)
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
+#include "Consts.h"
 
 #ifndef TRANSPORT_H_
 #define TRANSPORT_H_
@@ -18,14 +14,7 @@
 	#define TRANSPORT_TEXT_DIR "Data\\imported\\transport.txt"
 	#define TRANSPORT_BIN_DIR "Data\\saved\\transport.txt"
 
-	#define NAME_SIZE 40
-	#define EMAIL_SIZE 60
-	#define PASSWORD_SIZE 30
-	#define ADRESS_SIZE 80
-	#define LOCATION_SIZE 80
-
-	 //#define str(x) #x
-	 //#define xstr(x) str(x)
+	/***** Data type definitions *****/
 
 	typedef enum {
 		bus,
@@ -38,7 +27,7 @@
 		TransportType type;
 		float batteryLife;
 		float price;
-		char localizacao[LOCATION_SIZE];
+		char location[LOCATION_SIZE];
 		int renter; // -1 Used as Default N/A Value
 	} Transport;
 
@@ -72,6 +61,38 @@
 	 * @return false - Transport doen't exist
 	 */
 	bool RemoveTransport(TransportList** head, TransportList* sourceTransport);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Sort Transports by id.
+	 *
+	 * @param List head
+	 * @return true - Sorted Successfully
+	 * @return false - Transport doen't exist
+	 */
+	bool SortTransportsById(TransportList* head);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Sort Transports by battery life.
+	 *
+	 * @param List head
+	 * @return true - Sorted Successfully
+	 * @return false - Transport doen't exist
+	 */
+	bool SortTransportsByBatteryLife(TransportList* head);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Swaps between two Transports from linked list.
+	 *
+	 * @param Transport 1
+	 * @param Transport 2
+	 */
+	void SwapTransport(TransportList* transport1, TransportList* transport2);
 
 	/**
 	 * @author Francisco
