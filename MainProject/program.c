@@ -53,5 +53,7 @@ int main() {
 
 	SortTransportsByBatteryLife(transports);
 
+	ClearCustomers(&customers);
+
 	return 0;
 }

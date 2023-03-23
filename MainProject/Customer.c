@@ -83,6 +83,28 @@ bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
 /**
  * @author Francisco
  * 
+ * @brief Clear a Customers linked list.
+ * 
+ * @param List head
+ * @return true - List cleared Successfully
+ */
+bool ClearCustomers(CustomerList** head) {
+
+	CustomerList* current = (*head)->previous;
+	*head = NULL;
+
+	while (current != NULL)
+	{
+		free(current->previous);
+		current = current->next;
+	}
+
+	return NULL;
+}
+
+/**
+ * @author Francisco
+ * 
  * @brief Sort Customers by id.
  * 
  * @param List head

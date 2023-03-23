@@ -56,6 +56,16 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Clear a Customers linked list.
+	 *
+	 * @param List head
+	 * @return true - List cleared Successfully
+	 */
+	bool ClearCustomers(CustomerList* head);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Sort Customers by id.
 	 *
 	 * @param List head
