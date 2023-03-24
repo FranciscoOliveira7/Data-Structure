@@ -65,6 +65,17 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Wipe a Transports linked list from memory.
+	 *
+	 * @param List head
+	 * @return true - List wiped Successfully
+	 * @return false - List is already empty
+	 */
+	bool WipeTransports(TransportList** head);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Sort Transports by id.
 	 *
 	 * @param List head

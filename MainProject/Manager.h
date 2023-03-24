@@ -55,6 +55,17 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Wipe a Managers linked list from memory.
+	 *
+	 * @param List head
+	 * @return true - List wiped Successfully
+	 * @return false - List is already empty
+	 */
+	bool WipeManagers(ManagerList** head);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Sort Managers by id.
 	 *
 	 * @param List head

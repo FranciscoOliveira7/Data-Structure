@@ -63,19 +63,51 @@ bool RemoveManager(ManagerList** head, ManagerList* sourceManager) {
 
 	if (sourceManager == NULL) return false;
 
+	// Points head to the next manager if removed
 	if (*head == sourceManager) {
 		*head = sourceManager->next;
-		(*head)->previous = NULL;
+
+		// sets previous pointer to NULL if there is a second manager
+		if (*head != NULL) (*head)->previous = NULL;
 	}
 	else {
-		if (sourceManager->previous != NULL)
-			sourceManager->previous->next = sourceManager->next;
+		// Updates previous manager next pointer
+		sourceManager->previous->next = sourceManager->next;
 
+		// Updates next manager previous pointer if it exists
 		if (sourceManager->next != NULL)
 			sourceManager->next->previous = sourceManager->previous;
 	}
 
 	free(sourceManager);
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Wipe a Managers linked list from memory.
+ *
+ * @param List head
+ * @return true - List wiped Successfully
+ * @return false - List is already empty
+ */
+bool WipeManagers(ManagerList** head) {
+
+	if (head == NULL) return false;
+
+	ManagerList* current = *head;
+	ManagerList* previous = NULL;
+
+	*head = NULL;
+
+	while (current != NULL)
+	{
+		previous = current;
+		current = current->next;
+		free(previous);
+	}
 
 	return true;
 }

@@ -63,14 +63,18 @@ bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
 
 	if (sourceCustomer == NULL) return false;
 
+	// Points head to the next customer if removed
 	if (*head == sourceCustomer) { 
 		*head = sourceCustomer->next;
-		(*head)->previous = NULL;
+		
+		// sets previous pointer to NULL if there is a second customer
+		if (*head != NULL) (*head)->previous = NULL;
 	}
 	else {
-		if (sourceCustomer->previous != NULL)
-			sourceCustomer->previous->next = sourceCustomer->next;
+		// Updates previous customer next pointer
+		sourceCustomer->previous->next = sourceCustomer->next;
 
+		// Updates next customer previous pointer if it exists
 		if (sourceCustomer->next != NULL)
 			sourceCustomer->next->previous = sourceCustomer->previous;
 	}
@@ -83,23 +87,29 @@ bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
 /**
  * @author Francisco
  * 
- * @brief Clear a Customers linked list.
+ * @brief Wipe a Customers linked list from memory.
  * 
  * @param List head
- * @return true - List cleared Successfully
+ * @return true - List wiped Successfully
+ * @return false - List is already empty
  */
-bool ClearCustomers(CustomerList** head) {
+bool WipeCustomers(CustomerList** head) {
 
-	CustomerList* current = (*head)->previous;
+	if (head == NULL) return false;
+
+	CustomerList* current = *head;
+	CustomerList* previous = NULL;
+
 	*head = NULL;
 
 	while (current != NULL)
 	{
-		free(current->previous);
+		previous = current;
 		current = current->next;
+		free(previous);
 	}
 
-	return NULL;
+	return true;
 }
 
 /**
@@ -109,7 +119,7 @@ bool ClearCustomers(CustomerList** head) {
  * 
  * @param List head
  * @return true - Sorted Successfully
- * @return false - Customer doen't exist
+ * @return false - The list is empty
  */
 bool SortCustomersById(CustomerList* head) {
 	
@@ -141,12 +151,19 @@ bool SortCustomersById(CustomerList* head) {
  * 
  * @param Customer 1
  * @param Customer 2
+ * @return true - Swaped Successfully
+ * @return false - Invalid Customers
  */
-void SwapCustomer(CustomerList* customer1, CustomerList* customer2) {
+bool SwapCustomer(CustomerList* customer1, CustomerList* customer2) {
 	
-	Customer aux = customer1->customer;
-	customer1->customer = customer2->customer;
-	customer2->customer = aux;
+	if (customer1 && customer2)
+	{
+		Customer aux = customer1->customer;
+		customer1->customer = customer2->customer;
+		customer2->customer = aux;
+		return true;
+	}
+	return false;
 }
 
 /**

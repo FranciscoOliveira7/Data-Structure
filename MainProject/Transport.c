@@ -61,19 +61,51 @@ bool RemoveTransport(TransportList** head, TransportList* sourceTransport) {
 
 	if (sourceTransport == NULL) return false;
 
+	// Points head to the next transport if removed
 	if (*head == sourceTransport) {
 		*head = sourceTransport->next;
-		(*head)->previous = NULL;
+
+		// sets previous pointer to NULL if there is a second transport
+		if (*head != NULL) (*head)->previous = NULL;
 	}
 	else {
-		if (sourceTransport->previous != NULL)
-			sourceTransport->previous->next = sourceTransport->next;
+		// Updates previous transport next pointer
+		sourceTransport->previous->next = sourceTransport->next;
 
+		// Updates next transport previous pointer if it exists
 		if (sourceTransport->next != NULL)
 			sourceTransport->next->previous = sourceTransport->previous;
 	}
 
 	free(sourceTransport);
+
+	return true;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Wipe a Transports linked list from memory.
+ *
+ * @param List head
+ * @return true - List wiped Successfully
+ * @return false - List is already empty
+ */
+bool WipeTransports(TransportList** head) {
+
+	if (head == NULL) return false;
+
+	TransportList* current = *head;
+	TransportList* previous = NULL;
+
+	*head = NULL;
+
+	while (current != NULL)
+	{
+		previous = current;
+		current = current->next;
+		free(previous);
+	}
 
 	return true;
 }

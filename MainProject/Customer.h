@@ -56,12 +56,13 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Clear a Customers linked list.
+	 * @brief Wipe a Customers linked list from memory.
 	 *
 	 * @param List head
-	 * @return true - List cleared Successfully
+	 * @return true - List wiped Successfully
+	 * @return false - List is already empty
 	 */
-	bool ClearCustomers(CustomerList* head);
+	bool WipeCustomers(CustomerList** head);
 
 	/**
 	 * @author Francisco
@@ -81,8 +82,10 @@
 	 *
 	 * @param Customer 1
 	 * @param Customer 2
+	 * @return true - Swaped Successfully
+	 * @return false - Invalid Customers
 	 */
-	void SwapCustomer(CustomerList* customer1, CustomerList* customer2);
+	bool SwapCustomer(CustomerList* customer1, CustomerList* customer2);
 
 	/**
 	 * @author Francisco

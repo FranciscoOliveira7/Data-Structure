@@ -20,10 +20,12 @@ int main() {
 	printf("\n %d", ReadManagersFile(&managers, MANAGER_TEXT_DIR));
 	printf("\n %d", ReadTransportsFile(&transports, TRANSPORT_TEXT_DIR));
 
-	//Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
+	Customer c1 = { 1, "dwdw", "dwd", "dwdw", 69420 };
 	//Customer c2 = { 2, "dydfy", "breb", "sdf", 12345 };
 	//Customer c3 = { 3, "ehg", "ertg", "fwef", 8994 };
 	//Customer c4 = { 4, "kym", "myu", "bn", 345 };
+
+	AddCustomer(&customers, c1);
 
 	// TODO: FIX GETBYINDEX FUNCTIONS
 
@@ -41,7 +43,7 @@ int main() {
 
 	//printf("\n %d", SaveTransportsAsFile(transports, TRANSPORT_BIN_DIR));
 
-	CustomerList* sample = FindCustomer(customers, 2);
+	CustomerList* sample = FindCustomer(customers, 1);
 
 	//EditCustomer(sample, c1);
 
@@ -53,7 +55,8 @@ int main() {
 
 	SortTransportsByBatteryLife(transports);
 
-	ClearCustomers(&customers);
+	WipeCustomers(&customers);
 
+	// return 0 to make sure the code runs until end when testing
 	return 0;
 }
