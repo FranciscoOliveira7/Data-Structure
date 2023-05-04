@@ -18,38 +18,11 @@
     <ClCompile Include="Program.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Customer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transport.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Graph.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Customer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Consts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
