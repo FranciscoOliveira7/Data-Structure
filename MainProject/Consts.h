@@ -18,6 +18,7 @@
 	#include <stdlib.h>
 	#include <stdio.h>
 	#include <stdbool.h>
+	#include <string.h>
 
 	// All string sizes
 	#define NAME_SIZE 40
