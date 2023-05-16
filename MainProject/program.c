@@ -17,20 +17,22 @@ int main() {
 	TransportList* transports = NULL; //Transport linked list inicialization
 
 	Vertex* graph = NULL;
-	Vertex v1 = { 1, "Lisboa", NULL, NULL };
-	Vertex v2 = { 2, "Braga", NULL, NULL };
-	Vertex v3 = { 3, "Porto", NULL, NULL };
+	Vertex* v1 = CreateVertex(1, "Lisboa");
+	Vertex* v2 = CreateVertex(2, "Braga");
+	Vertex* v3 = CreateVertex(3, "Porto");
+	Vertex* v4 = CreateVertex(3, "Guimaraes");
 
 	AddVertex(&graph, v1);
 	AddVertex(&graph, v2);
 	AddVertex(&graph, v3);
+	AddVertex(&graph, v4);
 
-	AddEdge(graph, graph->next, 69);
-	AddEdge(graph, graph->next->next, 69);
-	AddEdge(graph->next, graph->next->next, 69);
-	AddEdge(graph->next->next, graph->next, 69);
+	AddEdgeByName(graph, "Lisboa", "Braga", 24);
+	AddEdgeByName(graph, "Lisboa", "Porto", 35);
+	AddEdgeByName(graph, "Braga", "Lisboa", 24);
+	AddEdgeByName(graph, "Porto", "Braga", 36);
 
-	printf(" %s", SearchVertexByName(graph, "Lisboa")->name);
+	//printf(" %s", SearchVertexByName(graph, "Lisboa")->name);
 
 	displayGraph(graph);
 

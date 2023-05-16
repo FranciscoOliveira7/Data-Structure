@@ -11,6 +11,9 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
+	#define CUSTOMER_TEXT_DIR "Data\\imported\\locations.txt"
+	#define CUSTOMER_BIN_DIR "Data\\saved\\locations.txt"
+
 	/***** Data type definitions *****/
 
 	/*	- Save Vertexs Graph to text sample -
@@ -38,17 +41,21 @@
 	typedef struct Vertex Vertex;
 	typedef struct Adj Adj;
 
-	// Vertex vertex
-	struct Vertex {
+	typedef struct {
 		int code;				  // vertex code
 		char name[LOCATION_SIZE]; // geocode
+	} VertexValues;
+
+	// Vertex vertex
+	struct Vertex {
+		VertexValues values;
 		Vertex* next;
 		Adj* adjacency;
 	};
 
 	// Vertex Edge
 	struct Adj {
-		int weight; // Edge Weight
+		float weight; // Edge Weight
 		Adj* next;
 		Vertex* vertex;
 	};
@@ -60,10 +67,36 @@
 	 *
 	 * @param Graph Vertex
 	 * @param Vertex to insert
+	 * @return New Vertex
+	 * @return NULL - Error allocating memory
+	 */
+	Vertex* CreateVertex(int code, char* name);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Vertex to the Graph.
+	 *
+	 * @param Graph Vertex
+	 * @param Vertex to insert
 	 * @return true - Added Successfully
 	 * @return false - Error allocating memory
 	 */
-	bool AddVertex(Vertex** graph, Vertex srcVertex);
+	bool AddVertex(Vertex** graph, Vertex* srcVertex);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Adjecency to a Vertex.
+	 *
+	 * @param Source Vertex
+	 * @param Destination Vertex
+	 * @param Edge Weight
+	 * @return 1 - Added Successfully
+	 * @return 2 - Error allocating memory
+	 * @return 3 - Invalid Vertexes
+	 */
+	int AddEdge(Vertex* srcVertex, Vertex* destVertex, int weight);
 
 	/**
 	 * @author Francisco
@@ -78,7 +111,7 @@
 	 * @return 2 - Error allocating memory
 	 * @return 3 - Invalid Vertexes
 	 */
-	int AddEdge(Vertex* srcVertex, Vertex* destVertex, int weight);
+	int AddEdgeByName(Vertex* graph, char* srcVertex, char* destVertex, int weight);
 
 	/**
 	 * @author Francisco
@@ -119,5 +152,29 @@
 	 * @param Vertex adjecency
 	 */
 	void displayAdjs(Adj* adjecency);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Saves all the Vertex from a list into a file.
+	 *
+	 * @param Graph
+	 * @param File directory
+	 * @return 1 - Saved Successfully
+	 * @return 2 - Error opening file
+	 * @return 3 - The list is empty
+	 */
+	int SaveGraphAsFile(Vertex* graph, const char* fileName);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Counts the number of vertices.
+	 *
+	 * @param Graph
+	 * @param File directory
+	 * @return Number os vertices
+	 */
+	int CountVertices(Vertex* graph);
 
 #endif

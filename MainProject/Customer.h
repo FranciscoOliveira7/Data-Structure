@@ -145,7 +145,7 @@
 	 * @param File directory
 	 * @return 1 - Saved Successfully
 	 * @return 2 - Error opening file
-	 * @return 3 - The list is empty
+	 * @return 3 - The graph is empty
 	 */
 	int SaveCustomersAsFile(CustomerList* head, const char* fileName);
 
