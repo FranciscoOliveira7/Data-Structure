@@ -160,6 +160,44 @@ int AddEdgeByName(Vertex* graph, char* srcVertex, char* destVertex, int weight) 
 /**
  * @author Francisco
  *
+ * @brief Appends a new Adjecency to a Vertex.
+ *
+ * @param Graph Vertex
+ * @param Source Vertex
+ * @param Destination Vertex
+ * @param Edge Weight
+ * @return 1 - Added Successfully
+ * @return 2 - Error allocating memory
+ * @return 3 - Invalid Vertexes
+ */
+int AddEdgeByCode(Vertex* graph, int srcVertex, int destVertex, int weight) {
+
+	Vertex* v1 = SearchVertexByCode(graph, srcVertex);
+	Vertex* v2 = SearchVertexByCode(graph, destVertex);
+
+	AddEdge(v1, v2, weight);
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Search Vertex by its code in a Recursive way.
+ *
+ * @param Graph Vertex
+ * @param Vertex cdoe
+ * @return Searched Vertex
+ * @return Null if Vertex not found
+ */
+Vertex* SearchVertexByCode(Vertex* graph, int code) {
+
+	if (graph == NULL) return NULL;
+	if (graph->values.code == code) return graph;
+	return SearchVertexByCode(graph->next, code);
+}
+
+/**
+ * @author Francisco
+ *
  * @brief Search Vertex by its name in a Recursive way.
  *
  * @param Graph Vertex
@@ -249,18 +287,45 @@ int SaveGraphAsFile(Vertex* graph, const char* fileName) {
 
 	if (graph == NULL) return 3;
 
-	Vertex* current = graph;
+	Vertex* currentV = graph;
+	Adj* currentA;
+	AdjValues currentAdj;
 
 	FILE* file;
 	fopen_s(&file, fileName, "wb");
 
 	// Return 2 if the file wasn't open successfully
 	if (file == NULL) return 2;
+
+	int numOfVertexes = CountVertices(graph);
 	
-	fwrite(CountVertices(graph), sizeof(int), 1, file);
+	fwrite(&numOfVertexes, sizeof(int), 1, file);
 
-	while (true) {
+	//save graph
+	while (currentV != NULL) {
+		fwrite(&(currentV->values), sizeof(VertexValues), 1, file);
+		currentV = currentV->next;
+	}
 
+	currentV = graph;
+
+	int numOfAdj = CountVertices(graph);
+
+	fwrite(&numOfAdj, sizeof(int), 1, file);
+
+	while (currentV != NULL) {
+		Adj* currentA = currentV->adjacency;
+
+		while (currentA != NULL) {
+
+			currentAdj.source = currentV->values.code;
+			currentAdj.destination = currentA->vertex->values.code;
+			currentAdj.weight = currentA->weight;
+
+			fwrite(&currentAdj, sizeof(currentAdj), 1, file);
+			currentA = currentA->next;
+		}
+		currentV = currentV->next;
 	}
 
 	fclose(file);
@@ -270,11 +335,59 @@ int SaveGraphAsFile(Vertex* graph, const char* fileName) {
 /**
  * @author Francisco
  *
- * @brief Counts the number of vertices.
+ * @brief Saves all the Vertex from a list into a file.
+ *
+ * @param Graph adress
+ * @param File directory
+ * @return 1 - Loaded Successfully
+ * @return 2 - Error opening file
+ * @return 3 - Error reading file
+ */
+int LoadGraphFile(Vertex** graph, const char* fileName) {
+
+	FILE* file;
+	fopen_s(&file, fileName, "rb");
+
+	// Return 2 if the file wasn't open successfully
+	if (file == NULL) return 2;
+
+	VertexValues currentV;
+	AdjValues currentA;
+
+	int count = 0;
+
+	fread(&count, sizeof(int), 1, file);
+	if (count <= 0) return 3;
+
+	// Reads all the Vertexes
+	for (int i = 0; i < count; i++) {
+		fread(&currentV, sizeof(VertexValues), 1, file);
+
+		AddVertex(graph, CreateVertex(currentV.code, currentV.name));
+	}
+
+	// Read's all the Edges
+	count = 0;
+	fread(&count, sizeof(int), 1, file);
+	if (count <= 0) return 3;
+
+	for (int i = 0; i < count; i++) {
+		fread(&currentA, sizeof(AdjValues), 1, file);
+
+		AddEdgeByCode(*graph, currentA.source, currentA.destination, currentA.weight);
+	}
+
+	fclose(file);
+	return 1;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Counts the number of Vertices.
  *
  * @param Graph
- * @param File directory
- * @return Number os vertices
+ * @return Number os Vertices
  */
 int CountVertices(Vertex* graph) {
 
@@ -287,4 +400,79 @@ int CountVertices(Vertex* graph) {
 	}
 
 	return count;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Counts the number of Edges on a graph.
+ *
+ * @param Graph
+ * @return Number os Edges
+ */
+int CountEdges(Vertex* graph) {
+
+	if (graph == NULL) return 0;
+
+	Vertex* vertex = graph;
+
+	int count = 0;
+	while (vertex != NULL) {
+		Adj* current = vertex->adjacency;
+
+		while (current != NULL) {
+			count++;
+			current = current->next;
+		}
+		vertex = vertex->next;
+	}
+
+	return count;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Wipe a graph from memory.
+ *
+ * @param Graph adress
+ * @return true - Graph wiped Successfully
+ * @return false - Graph is already empty
+ */
+bool WipeGraph(Vertex** graph) {
+
+	if (*graph == NULL) return false;
+
+	Vertex *last = *graph, *previous;
+
+	while (last->next != NULL) {
+		previous = last;
+		last = last->next;
+		WipeAdj(previous);
+		free(previous);
+	}
+
+	*graph = NULL;
+	return true;
+}
+
+
+/**
+ * @author Francisco
+ *
+ * @brief Wipe a graph Adjecencies from memory.
+ *
+ * @param Adjecency adress
+ */
+void WipeAdj(Vertex* vertex) {
+
+	if (vertex->adjacency == NULL) return;
+
+	Adj* last = vertex->adjacency, *previous;
+
+	while (last->next != NULL) {
+		previous = last;
+		last = last->next;
+		free(previous);
+	}
 }

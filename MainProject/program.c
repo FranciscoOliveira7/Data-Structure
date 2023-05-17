@@ -20,7 +20,7 @@ int main() {
 	Vertex* v1 = CreateVertex(1, "Lisboa");
 	Vertex* v2 = CreateVertex(2, "Braga");
 	Vertex* v3 = CreateVertex(3, "Porto");
-	Vertex* v4 = CreateVertex(3, "Guimaraes");
+	Vertex* v4 = CreateVertex(4, "Guimaraes");
 
 	AddVertex(&graph, v1);
 	AddVertex(&graph, v2);
@@ -32,7 +32,11 @@ int main() {
 	AddEdgeByName(graph, "Braga", "Lisboa", 24);
 	AddEdgeByName(graph, "Porto", "Braga", 36);
 
-	//printf(" %s", SearchVertexByName(graph, "Lisboa")->name);
+	SaveGraphAsFile(graph, LOCATION_BIN_DIR);
+
+	WipeGraph(&graph);
+
+	LoadGraphFile(&graph, LOCATION_BIN_DIR);
 
 	displayGraph(graph);
 
