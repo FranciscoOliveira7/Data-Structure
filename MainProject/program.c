@@ -36,7 +36,9 @@ int main() {
 
 	WipeGraph(&graph);
 
-	LoadGraphFile(&graph, LOCATION_BIN_DIR);
+	LoadGraphTextFile(&graph, LOCATION_TEXT_DIR);
+
+	//LoadGraphFile(&graph, LOCATION_BIN_DIR);
 
 	displayGraph(graph);
 

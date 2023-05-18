@@ -1,0 +1,11 @@
+6
+1;Lisboa
+2;Braga
+3;Guimaraes;
+4;Braganca
+5;Barcelos
+6;Porto
+1;6;10
+6;1;10
+3;5;25
+3;5;5

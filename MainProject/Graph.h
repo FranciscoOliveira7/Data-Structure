@@ -191,7 +191,7 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Saves all the Vertex from a list into a file.
+	 * @brief Loads a graph from a binary file.
 	 *
 	 * @param Graph adress
 	 * @param File directory
@@ -200,6 +200,19 @@
 	 * @return 3 - Error reading file
 	 */
 	int LoadGraphFile(Vertex** graph, const char* fileName);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Loads a graph from a binary file.
+	 *
+	 * @param Graph adress
+	 * @param File directory
+	 * @return 1 - Loaded Successfully
+	 * @return 2 - Error opening file
+	 * @return 3 - Error reading file
+	 */
+	int LoadGraphTextFile(Vertex** graph, const char* fileName);
 
 	/**
 	 * @author Francisco
@@ -236,10 +249,10 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Wipe a graph Adjecencies from memory.
+	 * @brief Wipe a vertex Adjecencies from memory.
 	 *
 	 * @param Adjecency adress
 	 */
-	void WipeAdj(Adj** adj);
+	void WipeAdj(Vertex* vertex);
 
 #endif

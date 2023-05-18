@@ -335,7 +335,7 @@ int SaveGraphAsFile(Vertex* graph, const char* fileName) {
 /**
  * @author Francisco
  *
- * @brief Saves all the Vertex from a list into a file.
+ * @brief Loads a graph from a binary file.
  *
  * @param Graph adress
  * @param File directory
@@ -373,6 +373,61 @@ int LoadGraphFile(Vertex** graph, const char* fileName) {
 
 	for (int i = 0; i < count; i++) {
 		fread(&currentA, sizeof(AdjValues), 1, file);
+
+		AddEdgeByCode(*graph, currentA.source, currentA.destination, currentA.weight);
+	}
+
+	fclose(file);
+	return 1;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Loads a graph from a binary file.
+ *
+ * @param Graph adress
+ * @param File directory
+ * @return 1 - Loaded Successfully
+ * @return 2 - Error opening file
+ * @return 3 - Error reading file
+ */
+int LoadGraphTextFile(Vertex** graph, const char* fileName) {
+
+	FILE* file;
+	fopen_s(&file, fileName, "r");
+
+	// Return 2 if the file wasn't open successfully
+	if (file == NULL) return 2;
+
+	VertexValues currentV;
+	AdjValues currentA;
+
+	int count = 0;
+
+	char buffer[256];
+
+	// Read number of Vertices
+	fgets(buffer, sizeof(buffer), file);
+	if (buffer == NULL) return NULL;
+	count = atoi(buffer);
+
+	// Read's all the Vertices
+	for (int i = 0; i < count; i++) {
+		fgets(buffer, sizeof(buffer), file);
+
+		if (sscanf(buffer, "%d;%[^;]\n", &currentV.code, currentV.name) != 2);
+			return 3;
+
+		AddVertex(graph, CreateVertex(currentV.code, currentV.name));
+	}
+
+	// Read's all the Edges
+	while(fgets(buffer, sizeof(buffer), file) != NULL) {
+
+		if (sscanf(buffer, "%d;%d,%d\n",
+			&currentA.source, &currentA.destination, &currentA.weight) != 3);
+		return 3;
 
 		AddEdgeByCode(*graph, currentA.source, currentA.destination, currentA.weight);
 	}
@@ -460,7 +515,7 @@ bool WipeGraph(Vertex** graph) {
 /**
  * @author Francisco
  *
- * @brief Wipe a graph Adjecencies from memory.
+ * @brief Wipe a vertex Adjecencies from memory.
  *
  * @param Adjecency adress
  */
