@@ -17,28 +17,27 @@ int main() {
 	TransportList* transports = NULL; //Transport linked list inicialization
 
 	Vertex* graph = NULL;
-	Vertex* v1 = CreateVertex(1, "Lisboa");
-	Vertex* v2 = CreateVertex(2, "Braga");
-	Vertex* v3 = CreateVertex(3, "Porto");
-	Vertex* v4 = CreateVertex(4, "Guimaraes");
+	//Vertex* v1 = CreateVertex(1, "Lisboa");
+	//Vertex* v2 = CreateVertex(2, "Braga");
+	//Vertex* v3 = CreateVertex(3, "Porto");
+	//Vertex* v4 = CreateVertex(4, "Guimaraes");
 
-	AddVertex(&graph, v1);
-	AddVertex(&graph, v2);
-	AddVertex(&graph, v3);
-	AddVertex(&graph, v4);
+	//AddVertex(&graph, v1);
+	//AddVertex(&graph, v2);
+	//AddVertex(&graph, v3);
+	//AddVertex(&graph, v4);
 
-	AddEdgeByName(graph, "Lisboa", "Braga", 24);
-	AddEdgeByName(graph, "Lisboa", "Porto", 35);
-	AddEdgeByName(graph, "Braga", "Lisboa", 24);
-	AddEdgeByName(graph, "Porto", "Braga", 36);
+	//AddEdgeByName(graph, "Lisboa", "Braga", 24);
+	//AddEdgeByName(graph, "Lisboa", "Porto", 35);
+	//AddEdgeByName(graph, "Braga", "Lisboa", 24);
+	//AddEdgeByName(graph, "Porto", "Braga", 36);
 
-	SaveGraphAsFile(graph, LOCATION_BIN_DIR);
 
 	//WipeGraph(&graph);
 
 	//LoadGraphTextFile(&graph, LOCATION_TEXT_DIR);
 
-	//LoadGraphFile(&graph, LOCATION_BIN_DIR);
+	SaveGraphAsFile(graph, LOCATION_BIN_DIR);
 
 	return DepthFirstSearch(graph, 3, 2);
 

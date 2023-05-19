@@ -310,10 +310,6 @@ int SaveGraphAsFile(Vertex* graph, const char* fileName) {
 
 	currentV = graph;
 
-	int numOfAdj = CountVertices(graph);
-
-	fwrite(&numOfAdj, sizeof(int), 1, file);
-
 	while (currentV != NULL) {
 		Adj* currentA = currentV->adjacency;
 
@@ -352,6 +348,7 @@ int LoadGraphFile(Vertex** graph, const char* fileName) {
 	// Return 2 if the file wasn't open successfully
 	if (file == NULL) return 2;
 
+	// Values currently reading
 	VertexValues currentV;
 	AdjValues currentA;
 
@@ -368,13 +365,7 @@ int LoadGraphFile(Vertex** graph, const char* fileName) {
 	}
 
 	// Read's all the Edges
-	count = 0;
-	fread(&count, sizeof(int), 1, file);
-	if (count <= 0) return 3;
-
-	for (int i = 0; i < count; i++) {
-		fread(&currentA, sizeof(AdjValues), 1, file);
-
+	while (fread(&currentA, sizeof(AdjValues), 1, file) == 1) {
 		AddEdgeByCode(*graph, currentA.source, currentA.destination, currentA.weight);
 	}
 
@@ -417,17 +408,18 @@ int LoadGraphTextFile(Vertex** graph, const char* fileName) {
 	for (int i = 0; i < count; i++) {
 		fgets(buffer, sizeof(buffer), file);
 
-		if (sscanf(buffer, "%d;%[^;]\n", &currentV.code, currentV.name) != 2);
+		if (sscanf(buffer, "%d;%s\n", &currentV.code, currentV.name) != 2)
 			return 3;
 
 		AddVertex(graph, CreateVertex(currentV.code, currentV.name));
 	}
 
 	// Read's all the Edges
+
 	while(fgets(buffer, sizeof(buffer), file) != NULL) {
 
-		if (sscanf(buffer, "%d;%d,%d\n",
-			&currentA.source, &currentA.destination, &currentA.weight) != 3);
+		if (sscanf(buffer, "%d;%d;%d\n",
+			&currentA.source, &currentA.destination, &currentA.weight) != 3)
 		return 3;
 
 		AddEdgeByCode(*graph, currentA.source, currentA.destination, currentA.weight);
@@ -499,7 +491,7 @@ bool WipeGraph(Vertex** graph) {
 
 	if (*graph == NULL) return false;
 
-	Vertex *last = *graph, *previous;
+	Vertex* last = *graph, *previous;
 
 	while (last->next != NULL) {
 		previous = last;
@@ -507,6 +499,7 @@ bool WipeGraph(Vertex** graph) {
 		WipeAdj(previous);
 		free(previous);
 	}
+	free(last);
 
 	*graph = NULL;
 	return true;

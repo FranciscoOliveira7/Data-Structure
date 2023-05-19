@@ -1,104 +1,104 @@
 /*****************************************************************//**
- * @file   Customer.c
- * @brief  Customer structure functions
- * 
+ * @file   Rent.c
+ * @brief  Rent structure functions
+ *
  * @author Francisco
  * @date   March 2023
  *********************************************************************/
 
-#include "Customer.h"
+#include "Rent.h"
 
-/**
- * @author Francisco
- *
- * @brief Appends a new Customer to the linked list.
- *
- * @param List Head
- * @param Customer to insert
- * @return true - Added Successfully
- * @return false - Error allocating memory
- */
-bool AddCustomer(CustomerList** head, Customer sourceCustomer) {
+ /**
+  * @author Francisco
+  *
+  * @brief Appends a new Rent to the linked list.
+  *
+  * @param List Head
+  * @param Rent to insert
+  * @return true - Added Successfully
+  * @return false - Error allocating memory
+  */
+bool AddRent(RentList** head, Rent sourceRent) {
 
 	//Creates a new space in memory to Allocate the customer
-	CustomerList* newCustomer = (CustomerList*)malloc(sizeof(CustomerList));
+	RentList* newRent = (RentList*)malloc(sizeof(RentList));
 
-	if (newCustomer == NULL) {
-		free(newCustomer);
+	if (newRent == NULL) {
+		free(newRent);
 		return false;
 	}
 
-	newCustomer->customer = sourceCustomer;
-	newCustomer->previous = NULL;
-	newCustomer->next = NULL;
+	newRent->customer = sourceRent;
+	newRent->previous = NULL;
+	newRent->next = NULL;
 
 	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
-		*head = newCustomer;
+		*head = newRent;
 		return true;
 	}
 
 	//Else finds the last element of the list
-	CustomerList* last = *head;
+	RentList* last = *head;
 
 	while (last->next != NULL) {
 		last = last->next;
 	}
-	last->next = newCustomer;
+	last->next = newRent;
 	last->next->previous = last;
 	return true;
 }
 
 /**
  * @author Francisco
- * 
- * @brief Remove a Customer from the linked list.
- * 
+ *
+ * @brief Remove a Rent from the linked list.
+ *
  * @param List head
- * @param Customer to remove
+ * @param Rent to remove
  * @return true - Removed Successfully
- * @return false - Customer doen't exist
+ * @return false - Rent doen't exist
  */
-bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
+bool RemoveRent(RentList** head, RentList* sourceRent) {
 
-	if (sourceCustomer == NULL) return false;
+	if (sourceRent == NULL) return false;
 
 	// Points head to the next customer if removed
-	if (*head == sourceCustomer) { 
-		*head = sourceCustomer->next;
-		
+	if (*head == sourceRent) {
+		*head = sourceRent->next;
+
 		// sets previous pointer to NULL if there is a second customer
 		if (*head != NULL) (*head)->previous = NULL;
 	}
 	else {
 		// Updates previous customer next pointer
-		sourceCustomer->previous->next = sourceCustomer->next;
+		sourceRent->previous->next = sourceRent->next;
 
 		// Updates next customer previous pointer if it exists
-		if (sourceCustomer->next != NULL)
-			sourceCustomer->next->previous = sourceCustomer->previous;
+		if (sourceRent->next != NULL)
+			sourceRent->next->previous = sourceRent->previous;
 	}
 
-	free(sourceCustomer);
+	free(sourceRent);
 
 	return true;
 }
 
 /**
  * @author Francisco
- * 
- * @brief Wipe a Customers linked list from memory.
- * 
+ *
+ * @brief Wipe a Rents linked list from memory.
+ *
  * @param List head
  * @return true - List wiped Successfully
  * @return false - List is already empty
  */
-bool WipeCustomers(CustomerList** head) {
+bool WipeRents(RentList** head) {
 
 	if (head == NULL) return false;
 
-	CustomerList* current = *head;
-	CustomerList* previous = NULL;
+	RentList* current = *head;
+	RentList* previous = NULL;
 
 	*head = NULL;
 
@@ -114,19 +114,19 @@ bool WipeCustomers(CustomerList** head) {
 
 /**
  * @author Francisco
- * 
- * @brief Sort Customers by id.
- * 
+ *
+ * @brief Sort Rents by id.
+ *
  * @param List head
  * @return true - Sorted Successfully
  * @return false - The list is empty
  */
-bool SortCustomersById(CustomerList* head) {
-	
+bool SortRentsById(RentList* head) {
+
 	if (head == NULL) return false;
 
 	bool isSorted = false;
-	CustomerList* current = NULL;
+	RentList* current = NULL;
 
 	while (!isSorted)
 	{
@@ -135,7 +135,7 @@ bool SortCustomersById(CustomerList* head) {
 		while (current->next != NULL)
 		{
 			if (current->customer.id > current->next->customer.id) {
-				SwapCustomer(current, current->next);
+				SwapRent(current, current->next);
 				isSorted = false;
 			}
 			current = current->next;
@@ -146,19 +146,19 @@ bool SortCustomersById(CustomerList* head) {
 
 /**
  * @author Francisco
- * 
- * @brief Swaps between two Customers from linked list.
- * 
- * @param Customer 1
- * @param Customer 2
+ *
+ * @brief Swaps between two Rents from linked list.
+ *
+ * @param Rent 1
+ * @param Rent 2
  * @return true - Swaped Successfully
- * @return false - Invalid Customers
+ * @return false - Invalid Rents
  */
-bool SwapCustomer(CustomerList* customer1, CustomerList* customer2) {
-	
+bool SwapRent(RentList* customer1, RentList* customer2) {
+
 	if (customer1 && customer2)
 	{
-		Customer aux = customer1->customer;
+		Rent aux = customer1->customer;
 		customer1->customer = customer2->customer;
 		customer2->customer = aux;
 		return true;
@@ -169,37 +169,37 @@ bool SwapCustomer(CustomerList* customer1, CustomerList* customer2) {
 /**
  * @author Francisco
  *
- * @brief Edits a Customer from the linked list.
+ * @brief Edits a Rent from the linked list.
  *
- * @param Customer to edit
- * @param New Customer
+ * @param Rent to edit
+ * @param New Rent
  * @return true - Edited Successfully
- * @return false - Customer doen't exist
+ * @return false - Rent doen't exist
  */
-bool EditCustomer(CustomerList* customer, Customer newCustomer) {
+bool EditRent(RentList* customer, Rent newRent) {
 
 	if (customer == NULL) return false;
 
-	customer->customer = newCustomer;
+	customer->customer = newRent;
 
 	return true;
 }
 
 /**
  * @author Francisco
- * 
+ *
  * @brief Finds customer by its id.
- * 
+ *
  * @param List Head
- * @param Customer id
- * @return Customer pointer with the specified id
+ * @param Rent id
+ * @return Rent pointer with the specified id
  * @return NULL if not found
  */
-CustomerList* FindCustomer(CustomerList* head, int id) {
+RentList* FindRent(RentList* head, int id) {
 
 	if (head == NULL) return NULL;
 
-	CustomerList* current = head;
+	RentList* current = head;
 
 	while (current != NULL)
 	{
@@ -213,19 +213,19 @@ CustomerList* FindCustomer(CustomerList* head, int id) {
 /**
  * @author Francisco
  *
- * @brief Gets the Customer pointer in a linked list by its index.
- * 
+ * @brief Gets the Rent pointer in a linked list by its index.
+ *
  * @param List head
- * @param Customer index
- * @return Customer pointer with the specified index
+ * @param Rent index
+ * @return Rent pointer with the specified index
  * @return NULL if not found
  */
-CustomerList* GetCustomer(CustomerList* head, int index) {
+RentList* GetRent(RentList* head, int index) {
 
 	//Checks if the list is empty
 	if (head == NULL) return NULL;
 
-	CustomerList* current = head;
+	RentList* current = head;
 
 	for (int i = 0; i < index; i++)
 	{
@@ -246,9 +246,9 @@ CustomerList* GetCustomer(CustomerList* head, int index) {
  * @return 2 - Error opening file
  * @return 3 - Error on sscanf
  */
-int ReadCustomersFile(CustomerList** head, const char* fileName) {
+int ReadRentsFile(RentList** head, const char* fileName) {
 
-	Customer current = { 0 };
+	Rent current = { 0 };
 
 	FILE* file;
 
@@ -264,7 +264,7 @@ int ReadCustomersFile(CustomerList** head, const char* fileName) {
 			&current.id, current.name, current.nif, current.adress, &current.balance) != 5)
 			return 3;
 
-		AddCustomer(head, current);
+		AddRent(head, current);
 	}
 
 	fclose(file);
@@ -282,11 +282,11 @@ int ReadCustomersFile(CustomerList** head, const char* fileName) {
  * @return 2 - Error opening file
  * @return 3 - The list is empty
  */
-int SaveCustomersAsFile(CustomerList* head, const char* fileName) {
+int SaveRentsAsFile(RentList* head, const char* fileName) {
 
 	if (head == NULL) return 3;
 
-	CustomerList* current = head;
+	RentList* current = head;
 
 	FILE* file;
 
@@ -296,7 +296,7 @@ int SaveCustomersAsFile(CustomerList* head, const char* fileName) {
 	if (file == NULL) return 2;
 
 	do {
-		fwrite(&current->customer, sizeof(CustomerList), 1, file);
+		fwrite(&current->customer, sizeof(RentList), 1, file);
 
 		current = current->next;
 	} while (current != NULL);

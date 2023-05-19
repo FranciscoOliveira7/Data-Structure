@@ -131,6 +131,7 @@
     <ClCompile Include="Graph.c" />
     <ClCompile Include="Manager.c" />
     <ClCompile Include="Program.c" />
+    <ClCompile Include="Rent.c" />
     <ClCompile Include="Transport.c" />
     <ClCompile Include="UI.c" />
   </ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="Rent.h" />
     <ClInclude Include="Transport.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
