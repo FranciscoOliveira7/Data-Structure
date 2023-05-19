@@ -34,14 +34,16 @@ int main() {
 
 	SaveGraphAsFile(graph, LOCATION_BIN_DIR);
 
-	WipeGraph(&graph);
+	//WipeGraph(&graph);
 
-	LoadGraphTextFile(&graph, LOCATION_TEXT_DIR);
+	//LoadGraphTextFile(&graph, LOCATION_TEXT_DIR);
 
 	//LoadGraphFile(&graph, LOCATION_BIN_DIR);
 
-	displayGraph(graph);
+	return DepthFirstSearch(graph, 3, 2);
 
+	displayGraph(graph);
+	
 	ReadCustomersFile(&customers, CUSTOMER_TEXT_DIR);
 	ReadManagersFile(&managers, MANAGER_TEXT_DIR);
 	ReadTransportsFile(&transports, TRANSPORT_TEXT_DIR);

@@ -46,6 +46,7 @@
 		VertexValues values;
 		Vertex* next;
 		Adj* adjacency;
+		bool isVisited;
 	};
 
 	// Vertex Edge
@@ -254,5 +255,18 @@
 	 * @param Adjecency adress
 	 */
 	void WipeAdj(Vertex* vertex);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Depth First Search algorithm that returns if there's a path from a Vertex to another
+	 *
+	 * @param Graph
+	 * @param Source Vertex
+	 * @param Destination Vertex
+	 * @return true - if there's a path
+	 * @return false - if there's not
+	 */
+	bool DepthFirstSearch(Vertex* graph, int source, int destination);
 
 #endif

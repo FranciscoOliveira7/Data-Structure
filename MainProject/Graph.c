@@ -51,6 +51,7 @@ Vertex* CreateVertex(int code, char* name) {
 	newVertex->values = values;
 	newVertex->next = NULL;
 	newVertex->adjacency = NULL;
+	newVertex->isVisited = false;
 
 	return newVertex;
 }
@@ -529,5 +530,36 @@ void WipeAdj(Vertex* vertex) {
 		previous = last;
 		last = last->next;
 		free(previous);
+	}
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Depth First Search algorithm that returns if there's a path from a Vertex to another
+ *
+ * @param Graph
+ * @param Source Vertex
+ * @param Destination Vertex
+ * @return true - if there's a path
+ * @return false - if there's not
+ */
+bool DepthFirstSearch(Vertex* graph, int source, int destination) {
+
+	/* Since it's recursive, if the source and destination are the same it mean
+	   the source reached the destination and there's a path between them */
+	if (source == destination) return true;
+
+	Vertex* currentV = SearchVertexByCode(graph, source);
+	currentV->isVisited = true;
+
+	Adj* currentA = currentV->adjacency;
+
+	// Searches all the paths from all the currentV Adjancencies
+	while (currentA != NULL) {
+		currentV = currentA->vertex;
+		if (!currentV->isVisited)
+			return DepthFirstSearch(graph, currentV->values.code, destination);
+		currentA = currentA->next;
 	}
 }
