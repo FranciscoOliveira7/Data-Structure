@@ -10,6 +10,7 @@
 #include "Manager.h"
 #include "Transport.h"
 #include "Graph.h"
+//#include "Path.h"
 
 int main() {
 	CustomerList* customers = NULL; //Costumer linked list inicialization
@@ -32,16 +33,37 @@ int main() {
 	//AddEdgeByName(graph, "Braga", "Lisboa", 24);
 	//AddEdgeByName(graph, "Porto", "Braga", 36);
 
+	AddVertex(&graph, CreateVertex(1, "A"));
+	AddVertex(&graph, CreateVertex(2, "B"));
+	AddVertex(&graph, CreateVertex(3, "C"));
+	AddVertex(&graph, CreateVertex(4, "D"));
+	AddVertex(&graph, CreateVertex(5, "E"));
+
+	AddEdgeByName(graph, "A", "B", 4);
+	AddEdgeByName(graph, "A", "C", 2);
+	AddEdgeByName(graph, "C", "B", 1);
+	AddEdgeByName(graph, "B", "C", 3);
+	AddEdgeByName(graph, "B", "D", 2);
+	AddEdgeByName(graph, "B", "E", 3);
+	AddEdgeByName(graph, "E", "D", 1);
+	AddEdgeByName(graph, "C", "E", 5);
+	AddEdgeByName(graph, "C", "D", 4);
 
 	//WipeGraph(&graph);
 
 	//LoadGraphTextFile(&graph, LOCATION_TEXT_DIR);
 
-	SaveGraphAsFile(graph, LOCATION_BIN_DIR);
+	//SaveGraphAsFile(graph, LOCATION_BIN_DIR);
 
-	return DepthFirstSearch(graph, 3, 2);
+	//PathList pathlist = FindShortestPath(graph, 1);
+
+	//IsTherePath(graph, 3, 2);
+
+	ResetVisitedNodes(graph);
 
 	displayGraph(graph);
+
+	PathList* pathlist = FindShortestPath(graph, 1);
 	
 	ReadCustomersFile(&customers, CUSTOMER_TEXT_DIR);
 	ReadManagersFile(&managers, MANAGER_TEXT_DIR);

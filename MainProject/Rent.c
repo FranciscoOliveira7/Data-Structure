@@ -20,7 +20,7 @@
   */
 bool AddRent(RentList** head, Rent sourceRent) {
 
-	//Creates a new space in memory to Allocate the customer
+	//Creates a new space in memory to Allocate the rent
 	RentList* newRent = (RentList*)malloc(sizeof(RentList));
 
 	if (newRent == NULL) {
@@ -28,7 +28,7 @@ bool AddRent(RentList** head, Rent sourceRent) {
 		return false;
 	}
 
-	newRent->customer = sourceRent;
+	newRent->rent = sourceRent;
 	newRent->previous = NULL;
 	newRent->next = NULL;
 
@@ -63,18 +63,18 @@ bool RemoveRent(RentList** head, RentList* sourceRent) {
 
 	if (sourceRent == NULL) return false;
 
-	// Points head to the next customer if removed
+	// Points head to the next rent if removed
 	if (*head == sourceRent) {
 		*head = sourceRent->next;
 
-		// sets previous pointer to NULL if there is a second customer
+		// sets previous pointer to NULL if there is a second rent
 		if (*head != NULL) (*head)->previous = NULL;
 	}
 	else {
-		// Updates previous customer next pointer
+		// Updates previous rent next pointer
 		sourceRent->previous->next = sourceRent->next;
 
-		// Updates next customer previous pointer if it exists
+		// Updates next rent previous pointer if it exists
 		if (sourceRent->next != NULL)
 			sourceRent->next->previous = sourceRent->previous;
 	}
@@ -95,7 +95,7 @@ bool RemoveRent(RentList** head, RentList* sourceRent) {
  */
 bool WipeRents(RentList** head) {
 
-	if (head == NULL) return false;
+	if (*head == NULL) return false;
 
 	RentList* current = *head;
 	RentList* previous = NULL;
@@ -134,7 +134,7 @@ bool SortRentsById(RentList* head) {
 		current = head;
 		while (current->next != NULL)
 		{
-			if (current->customer.id > current->next->customer.id) {
+			if (current->rent.id > current->next->rent.id) {
 				SwapRent(current, current->next);
 				isSorted = false;
 			}
@@ -154,13 +154,13 @@ bool SortRentsById(RentList* head) {
  * @return true - Swaped Successfully
  * @return false - Invalid Rents
  */
-bool SwapRent(RentList* customer1, RentList* customer2) {
+bool SwapRent(RentList* rent1, RentList* rent2) {
 
-	if (customer1 && customer2)
+	if (rent1 && rent2)
 	{
-		Rent aux = customer1->customer;
-		customer1->customer = customer2->customer;
-		customer2->customer = aux;
+		Rent aux = rent1->rent;
+		rent1->rent = rent2->rent;
+		rent2->rent = aux;
 		return true;
 	}
 	return false;
@@ -176,11 +176,11 @@ bool SwapRent(RentList* customer1, RentList* customer2) {
  * @return true - Edited Successfully
  * @return false - Rent doen't exist
  */
-bool EditRent(RentList* customer, Rent newRent) {
+bool EditRent(RentList* rent, Rent newRent) {
 
-	if (customer == NULL) return false;
+	if (rent == NULL) return false;
 
-	customer->customer = newRent;
+	rent->rent = newRent;
 
 	return true;
 }
@@ -188,7 +188,7 @@ bool EditRent(RentList* customer, Rent newRent) {
 /**
  * @author Francisco
  *
- * @brief Finds customer by its id.
+ * @brief Finds rent by its id.
  *
  * @param List Head
  * @param Rent id
@@ -203,7 +203,7 @@ RentList* FindRent(RentList* head, int id) {
 
 	while (current != NULL)
 	{
-		if (current->customer.id == id) return current;
+		if (current->rent.id == id) return current;
 		current = current->next;
 	}
 
@@ -238,7 +238,7 @@ RentList* GetRent(RentList* head, int index) {
 /**
  * @author Francisco
  *
- * @brief Reads all the customers from a file into a list.
+ * @brief Reads all the rents from a file into a list.
  *
  * @param List Head
  * @param File directory
@@ -260,8 +260,8 @@ int ReadRentsFile(RentList** head, const char* fileName) {
 	char buffer[256];
 	while (fgets(buffer, sizeof(buffer), file) != NULL)
 	{
-		if (sscanf(buffer, "%d;%[^;];%[^;];%[^;];%f\n",
-			&current.id, current.name, current.nif, current.adress, &current.balance) != 5)
+		if (sscanf(buffer, "%d;%d;%d;%f\n",
+			&current.id, &current.customer, &current.transport, &current.price) != 4)
 			return 3;
 
 		AddRent(head, current);
@@ -274,7 +274,7 @@ int ReadRentsFile(RentList** head, const char* fileName) {
 /**
  * @author Francisco
  *
- * @brief Saves all the customers from a list into a file.
+ * @brief Saves all the rents from a list into a file.
  *
  * @param List Head
  * @param File directory
@@ -296,7 +296,7 @@ int SaveRentsAsFile(RentList* head, const char* fileName) {
 	if (file == NULL) return 2;
 
 	do {
-		fwrite(&current->customer, sizeof(RentList), 1, file);
+		fwrite(&current->rent, sizeof(RentList), 1, file);
 
 		current = current->next;
 	} while (current != NULL);

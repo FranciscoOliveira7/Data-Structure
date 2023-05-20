@@ -95,7 +95,7 @@ bool RemoveManager(ManagerList** head, ManagerList* sourceManager) {
  */
 bool WipeManagers(ManagerList** head) {
 
-	if (head == NULL) return false;
+	if (*head == NULL) return false;
 
 	ManagerList* current = *head;
 	ManagerList* previous = NULL;

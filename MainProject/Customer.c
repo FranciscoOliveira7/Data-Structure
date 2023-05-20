@@ -95,7 +95,7 @@ bool RemoveCustomer(CustomerList** head, CustomerList* sourceCustomer) {
  */
 bool WipeCustomers(CustomerList** head) {
 
-	if (head == NULL) return false;
+	if (*head == NULL) return false;
 
 	CustomerList* current = *head;
 	CustomerList* previous = NULL;

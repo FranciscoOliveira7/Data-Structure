@@ -8,23 +8,22 @@
 
 #include "Consts.h"
 
-#ifndef CUSTOMER_H_
-#define CUSTOMER_H_
+#ifndef RENT_H_
+#define RENT_H_
 
-	#define CUSTOMER_TEXT_DIR "Data\\imported\\customers.txt"
-	#define CUSTOMER_BIN_DIR "Data\\saved\\customers.txt"
+	#define RENT_TEXT_DIR "Data\\imported\\rents.txt"
+	#define RENT_BIN_DIR "Data\\saved\\rents.txt"
 
 	typedef struct {
 		int id;
-		char name[NAME_SIZE];
-		char nif[NIF_SIZE];
-		char adress[ADRESS_SIZE];
-		float balance;
+		int customer;
+		int transport;
+		float price;
 	} Rent;
 
 	typedef struct RentList RentList;
 	struct RentList {
-		Rent customer;
+		Rent rent;
 		RentList* previous;
 		RentList* next;
 	};
@@ -85,7 +84,7 @@
 	 * @return true - Swaped Successfully
 	 * @return false - Invalid Rents
 	 */
-	bool SwapRent(RentList* customer1, RentList* customer2);
+	bool SwapRent(RentList* rent1, RentList* rent2);
 
 	/**
 	 * @author Francisco
@@ -97,12 +96,12 @@
 	 * @return true - Edited Successfully
 	 * @return false - Rent doen't exist
 	 */
-	bool EditRent(RentList* customer, Rent newRent);
+	bool EditRent(RentList* rent, Rent newRent);
 
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Finds customer by its id.
+	 * @brief Finds rent by its id.
 	 *
 	 * @param List Head
 	 * @param Rent id
@@ -126,7 +125,7 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Reads all the customers from a file into a list.
+	 * @brief Reads all the rents from a file into a list.
 	 *
 	 * @param List Head
 	 * @param File directory
@@ -139,7 +138,7 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Saves all the customers from a list into a file.
+	 * @brief Saves all the rents from a list into a file.
 	 *
 	 * @param List Head
 	 * @param File directory

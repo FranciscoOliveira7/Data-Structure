@@ -31,14 +31,14 @@
 
 	// Vertex and Adjancency's values to easly save them into a file
 	typedef struct {
-		int code;				  // vertex code
+		int id;					  // vertex code
 		char name[LOCATION_SIZE]; // geocode
 	} VertexValues;
 
 	typedef struct {
 		int source;
 		int destination;
-		int weight;
+		float weight;
 	} AdjValues;
 
 	// Vertex vertex
@@ -55,6 +55,23 @@
 		Adj* next;
 		Vertex* vertex;
 	};
+
+	typedef struct Path Path;
+	typedef struct PathList PathList;
+
+	struct Path {
+		int vertex;
+		Path* next; // Previous Vertex of the path
+	};
+
+	struct PathList {
+		int vertex;
+		int distance; // Total weigth of the path
+		Path* path;
+		PathList* next;
+	};
+
+	/***** All function signatures *****/
 
 	/**
 	 * @author Francisco
@@ -92,7 +109,7 @@
 	 * @return 2 - Error allocating memory
 	 * @return 3 - Invalid Vertexes
 	 */
-	int AddEdge(Vertex* srcVertex, Vertex* destVertex, int weight);
+	int AddEdge(Vertex* srcVertex, Vertex* destVertex, float weight);
 
 	/**
 	 * @author Francisco
@@ -107,7 +124,7 @@
 	 * @return 2 - Error allocating memory
 	 * @return 3 - Invalid Vertexes
 	 */
-	int AddEdgeByName(Vertex* graph, char* srcVertex, char* destVertex, int weight);
+	int AddEdgeByName(Vertex* graph, char* srcVertex, char* destVertex, float weight);
 
 	/**
 	 * @author Francisco
@@ -122,7 +139,7 @@
 	 * @return 2 - Error allocating memory
 	 * @return 3 - Invalid Vertexes
 	 */
-	int AddEdgeByCode(Vertex* graph, int srcVertex, int destVertex, int weight);
+	int AddEdgeByCode(Vertex* graph, int srcVertex, int destVertex, float weight);
 
 	/**
 	 * @author Francisco
@@ -246,6 +263,28 @@
 	 */
 	bool WipeGraph(Vertex** graph);
 
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Removes all graph Vertecies visited state.
+	 *
+	 * @param Graph
+	 * @return true - All Vertecies reseted
+	 * @return false - Graph is empty
+	 */
+	bool ResetVisitedNodes(Vertex* graph);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Checks if all the Vertices are visited.
+	 *
+	 * @param Graph
+	 * @return true - All Vertecies are visited
+	 * @return false - Not All Vertecies are visited
+	 */
+	bool AllVerticesVisited(Vertex* graph);
+
 
 	/**
 	 * @author Francisco
@@ -267,6 +306,128 @@
 	 * @return true - if there's a path
 	 * @return false - if there's not
 	 */
-	bool DepthFirstSearch(Vertex* graph, int source, int destination);
+	bool IsTherePath(Vertex* graph, int source, int destination);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Find all the shortest paths between in a graph using Dijkstra's algorithm.
+	 *
+	 * @param graph
+	 * @param source Vertex
+	 */
+	PathList* FindShortestPath(Vertex* graph, int source);
+
+
+
+
+
+
+
+
+
+
+
+	#define BIG_NUMBER 100000
+
+	/***** All function signatures *****/
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Initalizes a PathList with all the vertex for the Dijkstra algorithm
+	 *
+	 * @param Graph
+	 * @return New PathList
+	 * @return NULL - the graph is empty
+	 */
+	PathList* InitializePathList(Vertex* graph);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new PathList to the Graph.
+	 *
+	 * @param Graph PathList
+	 * @param PathList to insert
+	 * @return New PathList
+	 * @return NULL - Error allocating memory
+	 */
+	PathList* CreatePathList(int vertex);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new PathList to the linked list.
+	 *
+	 * @param List Head
+	 * @param PathList to insert
+	 * @return true - Added Successfully
+	 * @return false - Error allocating memory
+	 */
+	bool AddPathList(PathList** head, PathList* sourcePathList);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Finds pathList by its id.
+	 *
+	 * @param List Head
+	 * @param PathList id
+	 * @return PathList pointer with the specified id
+	 * @return NULL if not found
+	 */
+	PathList* FindPathList(PathList* head, int vertex);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Wipe a PathLists linked list from memory.
+	 *
+	 * @param List head
+	 * @return true - List wiped Successfully
+	 * @return false - List is already empty
+	 */
+	bool WipePathLists(PathList** head);
+
+
+	/************************************************************
+	 ******                 PATH FUNCTIONS                 ******
+	 ************************************************************/
+
+	 /**
+	  * @author Francisco
+	  *
+	  * @brief Appends a new Path to the Graph.
+	  *
+	  * @param Graph Path
+	  * @param Path to insert
+	  * @return New Path
+	  * @return NULL - Error allocating memory
+	  */
+	Path* CreatePath(int vertex);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Path to the linked list.
+	 *
+	 * @param List Head
+	 * @param Path to insert
+	 * @return true - Added Successfully
+	 * @return false - Error allocating memory
+	 */
+	bool AddPath(Path** head, Path* sourcePath);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Wipe a Paths linked list from memory.
+	 *
+	 * @param List head
+	 * @return true - List wiped Successfully
+	 * @return false - List is already empty
+	 */
+	bool WipePaths(Path** head);
 
 #endif
