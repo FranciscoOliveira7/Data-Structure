@@ -11,6 +11,8 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
+	#include "Path.h"
+
 	#define LOCATION_TEXT_DIR "Data\\imported\\locations.txt"
 	#define LOCATION_BIN_DIR "Data\\saved\\locations.txt"
 
@@ -54,21 +56,6 @@
 		float weight; // Edge Weight
 		Adj* next;
 		Vertex* vertex;
-	};
-
-	typedef struct Path Path;
-	typedef struct PathList PathList;
-
-	struct Path {
-		int vertex;
-		Path* next; // Previous Vertex of the path
-	};
-
-	struct PathList {
-		int vertex;
-		int distance; // Total weigth of the path
-		Path* path;
-		PathList* next;
 	};
 
 	/***** All function signatures *****/
@@ -182,7 +169,7 @@
 	 *
 	 * @param Graph vertex
 	 */
-	void displayGraph(Vertex* vertex);
+	void DisplayGraph(Vertex* vertex);
 
 	/**
 	 * @author Francisco
@@ -191,7 +178,7 @@
 	 *
 	 * @param Vertex adjecency
 	 */
-	void displayAdjs(Adj* adjecency);
+	void DisplayAdjs(Adj* adjecency);
 
 	/**
 	 * @author Francisco
@@ -311,26 +298,12 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Find all the shortest paths between in a graph using Dijkstra's algorithm.
+	 * @brief Find all the shortest paths in a graph using Dijkstra's algorithm.
 	 *
 	 * @param graph
 	 * @param source Vertex
 	 */
 	PathList* FindShortestPath(Vertex* graph, int source);
-
-
-
-
-
-
-
-
-
-
-
-	#define BIG_NUMBER 100000
-
-	/***** All function signatures *****/
 
 	/**
 	 * @author Francisco
@@ -342,92 +315,5 @@
 	 * @return NULL - the graph is empty
 	 */
 	PathList* InitializePathList(Vertex* graph);
-
-	/**
-	 * @author Francisco
-	 *
-	 * @brief Appends a new PathList to the Graph.
-	 *
-	 * @param Graph PathList
-	 * @param PathList to insert
-	 * @return New PathList
-	 * @return NULL - Error allocating memory
-	 */
-	PathList* CreatePathList(int vertex);
-
-	/**
-	 * @author Francisco
-	 *
-	 * @brief Appends a new PathList to the linked list.
-	 *
-	 * @param List Head
-	 * @param PathList to insert
-	 * @return true - Added Successfully
-	 * @return false - Error allocating memory
-	 */
-	bool AddPathList(PathList** head, PathList* sourcePathList);
-
-	/**
-	 * @author Francisco
-	 *
-	 * @brief Finds pathList by its id.
-	 *
-	 * @param List Head
-	 * @param PathList id
-	 * @return PathList pointer with the specified id
-	 * @return NULL if not found
-	 */
-	PathList* FindPathList(PathList* head, int vertex);
-
-	/**
-	 * @author Francisco
-	 *
-	 * @brief Wipe a PathLists linked list from memory.
-	 *
-	 * @param List head
-	 * @return true - List wiped Successfully
-	 * @return false - List is already empty
-	 */
-	bool WipePathLists(PathList** head);
-
-
-	/************************************************************
-	 ******                 PATH FUNCTIONS                 ******
-	 ************************************************************/
-
-	 /**
-	  * @author Francisco
-	  *
-	  * @brief Appends a new Path to the Graph.
-	  *
-	  * @param Graph Path
-	  * @param Path to insert
-	  * @return New Path
-	  * @return NULL - Error allocating memory
-	  */
-	Path* CreatePath(int vertex);
-
-	/**
-	 * @author Francisco
-	 *
-	 * @brief Appends a new Path to the linked list.
-	 *
-	 * @param List Head
-	 * @param Path to insert
-	 * @return true - Added Successfully
-	 * @return false - Error allocating memory
-	 */
-	bool AddPath(Path** head, Path* sourcePath);
-
-	/**
-	 * @author Francisco
-	 *
-	 * @brief Wipe a Paths linked list from memory.
-	 *
-	 * @param List head
-	 * @return true - List wiped Successfully
-	 * @return false - List is already empty
-	 */
-	bool WipePaths(Path** head);
 
 #endif

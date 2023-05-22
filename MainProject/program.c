@@ -10,12 +10,16 @@
 #include "Manager.h"
 #include "Transport.h"
 #include "Graph.h"
-//#include "Path.h"
+#include "Path.h"
+#include "Rent.h"
 
 int main() {
+	time_t now = time(NULL);
+
 	CustomerList* customers = NULL; //Costumer linked list inicialization
 	ManagerList* managers = NULL; //Manager linked list inicialization
 	TransportList* transports = NULL; //Transport linked list inicialization
+	Rent* rents = NULL;
 
 	Vertex* graph = NULL;
 	//Vertex* v1 = CreateVertex(1, "Lisboa");
@@ -61,9 +65,13 @@ int main() {
 
 	ResetVisitedNodes(graph);
 
-	displayGraph(graph);
+	DisplayGraph(graph);
 
 	PathList* pathlist = FindShortestPath(graph, 1);
+
+	Rent* rent = RegisterRent(1, 1, 1, pathlist, 2, 360);
+
+	AddRent(&rents, rent);
 	
 	ReadCustomersFile(&customers, CUSTOMER_TEXT_DIR);
 	ReadManagersFile(&managers, MANAGER_TEXT_DIR);

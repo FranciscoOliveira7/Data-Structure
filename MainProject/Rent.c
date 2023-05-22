@@ -8,6 +8,91 @@
 
 #include "Rent.h"
 
+/**
+ * @author Francisco
+ *
+ * @brief Registers a new Rent in the current time
+ *
+ * @param rent id
+ * @param customer id
+ * @param transport id
+ * @param source location name
+ * @param destination location name
+ * @return New Rent
+ * @return NULL - Error allocating memory
+ */
+Rent* RegisterRent(int id, int customer, int transport, PathList* source, int destination, int duration) {
+
+	int distance = FindPathList(source, destination)->distance;
+
+	return CreateRent(id, customer, transport, distance, time(NULL), duration);
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Appends a new Rent to the Graph.
+ *
+ * @param Graph Rent
+ * @param Rent to insert
+ * @return New Rent
+ * @return NULL - Error allocating memory
+ */
+float CalculatePrice(int distance, int duration) {
+	
+	return distance * .7 + duration * .2;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Allocates a new Rent o memory.
+ *
+ * @return New Rent
+ * @return NULL - Error allocating memory
+ */
+Rent* CreateEmptyRent() {
+
+	//Creates a new space in memory to Allocate the Rent
+	Rent* newRent = (Rent*)malloc(sizeof(Rent));
+
+	if (newRent == NULL) {
+		free(newRent);
+		return NULL;
+	}
+
+	return newRent;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Creates a new Rent.
+ *
+ * @param rent id
+ * @param customer id
+ * @param transport id
+ * @param distance
+ * @param time when start
+ * @param rent duration
+ * @return New Rent
+ * @return NULL - Error allocating memory
+ */
+Rent* CreateRent(int id, int customer, int transport, float distance, time_t start, int duration) {
+
+	Rent* newRent = CreateEmptyRent();
+
+	newRent->id = id;
+	newRent->customer = customer;
+	newRent->transport = transport;
+	newRent->distance = distance;
+	newRent->start = start;
+	newRent->duration = duration;
+	newRent->price = CalculatePrice(distance, duration);
+
+	return newRent;
+}
+
  /**
   * @author Francisco
   *
@@ -18,23 +103,11 @@
   * @return true - Added Successfully
   * @return false - Error allocating memory
   */
-bool AddRent(RentList** head, Rent sourceRent) {
-
-	//Creates a new space in memory to Allocate the rent
-	RentList* newRent = (RentList*)malloc(sizeof(RentList));
-
-	if (newRent == NULL) {
-		free(newRent);
-		return false;
-	}
-
-	newRent->rent = sourceRent;
-	newRent->previous = NULL;
-	newRent->next = NULL;
+bool AddRent(RentList** head, Rent* sourceRent) {
 
 	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
-		*head = newRent;
+		*head = sourceRent;
 		return true;
 	}
 
@@ -44,7 +117,7 @@ bool AddRent(RentList** head, Rent sourceRent) {
 	while (last->next != NULL) {
 		last = last->next;
 	}
-	last->next = newRent;
+	last->next = sourceRent;
 	last->next->previous = last;
 	return true;
 }
@@ -248,7 +321,7 @@ RentList* GetRent(RentList* head, int index) {
  */
 int ReadRentsFile(RentList** head, const char* fileName) {
 
-	Rent current = { 0 };
+	Rent* current = CreateEmptyRent();
 
 	FILE* file;
 
@@ -261,7 +334,7 @@ int ReadRentsFile(RentList** head, const char* fileName) {
 	while (fgets(buffer, sizeof(buffer), file) != NULL)
 	{
 		if (sscanf(buffer, "%d;%d;%d;%f\n",
-			&current.id, &current.customer, &current.transport, &current.price) != 4)
+			(&current->id), (&current->customer), (&current->transport), (&current->price)) != 4)
 			return 3;
 
 		AddRent(head, current);

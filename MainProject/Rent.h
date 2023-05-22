@@ -11,6 +11,10 @@
 #ifndef RENT_H_
 #define RENT_H_
 
+	#include "Transport.h"
+	#include "Path.h"
+	#include "Graph.h"
+
 	#define RENT_TEXT_DIR "Data\\imported\\rents.txt"
 	#define RENT_BIN_DIR "Data\\saved\\rents.txt"
 
@@ -19,6 +23,9 @@
 		int customer;
 		int transport;
 		float price;
+		float distance; // Distance in km
+		time_t start;   // Time in seconds from: 1 jan 1900 00:00
+		int duration;   // Duration in seconds
 	} Rent;
 
 	typedef struct RentList RentList;
@@ -31,6 +38,55 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Registers a new Rent in the current time
+	 *
+	 * @param rent id
+	 * @param customer id
+	 * @param transport id
+	 * @param source location name
+	 * @param destination location name
+	 * @return New Rent
+	 * @return NULL - Error allocating memory
+	 */
+	Rent* RegisterRent(int id, int customer, int transport, PathList* source, int destination, int duration);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Rent to the Graph.
+	 *
+	 * @param Graph Rent
+	 * @param Rent to insert
+	 * @return New Rent
+	 * @return NULL - Error allocating memory
+	 */
+	float CalculatePrice(int distance, int duration);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Allocates a new Rent o memory.
+	 *
+	 * @return New Rent
+	 * @return NULL - Error allocating memory
+	 */
+	Rent* CreateEmptyRent();
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Rent to the List.
+	 *
+	 * @param Graph Rent
+	 * @param Rent to insert
+	 * @return New Rent
+	 * @return NULL - Error allocating memory
+	 */
+	Rent* CreateRent(int id, int customer, int transport, float distance, time_t start, int duration);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Appends a new Rent to the linked list.
 	 *
 	 * @param List Head
@@ -38,7 +94,7 @@
 	 * @return true - Added Successfully
 	 * @return false - Error allocating memory
 	 */
-	bool AddRent(RentList** head, Rent sourceRent);
+	bool AddRent(RentList** head, Rent *sourceRent);
 
 	/**
 	 * @author Francisco

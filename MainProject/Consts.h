@@ -20,6 +20,9 @@
 	#include <stdbool.h>
 	#include <string.h>
 
+	// Time library
+	#include <time.h>
+
 	// All string sizes
 	#define NAME_SIZE 40
 	#define NIF_SIZE 15

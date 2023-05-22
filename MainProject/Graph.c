@@ -251,13 +251,13 @@ void displayGraph_Old(Vertex* graph) {
  *
  * @param Graph vertex
  */
-void displayGraph(Vertex* vertex) {
+void DisplayGraph(Vertex* vertex) {
 	
 	if (vertex == NULL) return;
 
 	printf("\n %s\n", vertex->values.name);
-	displayAdjs(vertex->adjacency);
-	displayGraph(vertex->next);
+	DisplayAdjs(vertex->adjacency);
+	DisplayGraph(vertex->next);
 }
 
 /**
@@ -267,12 +267,12 @@ void displayGraph(Vertex* vertex) {
  *
  * @param Vertex adjecency
  */
-void displayAdjs(Adj* adjecency) {
+void DisplayAdjs(Adj* adjecency) {
 
 	if (adjecency == NULL) return;
 
 	printf(" - %s (%.1fkm)\n", adjecency->vertex->values.name, adjecency->weight);
-	displayAdjs(adjecency->next);
+	DisplayAdjs(adjecency->next);
 }
 
 /**
@@ -608,66 +608,70 @@ bool IsTherePath(Vertex* graph, int source, int destination) {
 /**
  * @author Francisco
  *
- * @brief Find all the shortest paths between in a graph using Dijkstra's algorithm.
+ * @brief Find all the shortest paths in a graph using Dijkstra's algorithm.
  *
  * @param graph
  * @param source Vertex
  */
 PathList* FindShortestPath(Vertex* graph, int source) {
-	
-	int numOfVertices = CountVertices(graph);
 
+	// All the shortest paths will be contained in this list, we initialize so all the vertexes start with an "infinite" distance
 	PathList* pathlist = InitializePathList(graph);
+
+	// Set source Vertex distance to zero since it's we're already there
 	FindPathList(pathlist, source)->distance = 0;
 
 	Vertex* currentV = SearchVertexByCode(graph, source);
 	Adj* currentA = NULL;
 
-	//AddPath(&pathlist->path, CreatePath(source));
-
 	Path* currentpath = CreatePath(source);
 	int distance = 0;
-
-	//Work in Progress...
 	
 	while (!AllVerticesVisited(graph)) {
 
 		currentA = currentV->adjacency;
-		int leastDistant = -1; // Least distante vertex
+		Adj* leastDistant = NULL; // Adjacency poiting to the Least distant vertex
+		int leastDistantDistance = 0; // Adjacency poiting to the Least distant vertex
 		while (currentA != NULL) {
-			// Checks if the 
-			if (distance + currentA->weight < FindPathList(pathlist, currentA->vertex->values.id)->distance)
-			{
-				// Find the closest Vertex to the current one
-				if (leastDistant == -1 || currentA->weight < FindPathList(pathlist, leastDistant)->distance)
-					leastDistant = currentA->vertex->values.id;
+			if (!currentA->vertex->isVisited) {
+				// Checks if the current path is shorter than the current on the list and updates it
+				if (distance + currentA->weight < FindPathList(pathlist, currentA->vertex->values.id)->distance) {
+					PathList* path = FindPathList(pathlist, currentA->vertex->values.id);
+					path->distance = distance + currentA->weight;
+					path->path = CopyPath(currentpath);
+					PushPath(&(path->path), CreatePath(currentA->vertex->values.id));
+				}
 
-				FindPathList(pathlist, currentA->vertex->values.id)->distance = distance + currentA->weight;
+				// Find the closest Vertex to the current one
+				if (leastDistant == NULL || currentA->weight < leastDistantDistance) {
+					leastDistant = currentA;
+					leastDistantDistance = currentA->weight;
+				}
 			}
 
 			currentA = currentA->next;
 		}
 		// Updates current vertex to the closest one to itself
-		if (leastDistant != -1) {
+		if (leastDistant != NULL) {
 			currentV->isVisited = true;
-			distance += currentA->weight;
-			currentV = SearchVertexByCode(graph, leastDistant);
+			distance += leastDistant->weight;
+			currentV = leastDistant->vertex;
+			PushPath(&currentpath, CreatePath(currentV->values.id));
+		}
+		// If there's not any left, return to the previous one to check all the other options
+		else if (currentV->values.id != source) {
+			currentV->isVisited = true;
+			PopPath(&currentpath);
+			currentV = SearchVertexByCode(graph, TopPath(currentpath)->vertex);
+		}
+		// If all the possible paths were checks and still not visited all vertices, return the possible paths
+		else {
+			return pathlist;
 		}
 	}
 
 	return pathlist;
 }
-
-
-
-
-
-/************************************************************
- ******               PATHLIST FUNCTIONS               ******
- ************************************************************/
-
-
-
 
 /**
  * @author Francisco
@@ -693,204 +697,4 @@ PathList* InitializePathList(Vertex* graph) {
 	}
 
 	return path;
-}
-
-/**
- * @author Francisco
- *
- * @brief Appends a new PathList to the Graph.
- *
- * @param Graph PathList
- * @param PathList to insert
- * @return New PathList
- * @return NULL - Error allocating memory
- */
-PathList* CreatePathList(int vertex) {
-
-	//Creates a new space in memory to Allocate the PathList
-	PathList* newPathList = (PathList*)malloc(sizeof(PathList));
-
-	if (newPathList == NULL) {
-		free(newPathList);
-		return NULL;
-	}
-	newPathList->distance = BIG_NUMBER;
-	newPathList->vertex = vertex;
-	newPathList->next = NULL;
-	newPathList->path = NULL;
-
-	return newPathList;
-}
-
-/**
- * @author Francisco
- *
- * @brief Appends a new PathList to the linked list.
- *
- * @param List Head
- * @param PathList to insert
- * @return true - Added Successfully
- * @return false - Error allocating memory
- */
-bool AddPathList(PathList** head, PathList* sourcePathList) {
-
-	if (sourcePathList == NULL) {
-		free(sourcePathList);
-		return false;
-	}
-
-	sourcePathList->next = NULL;
-
-	//If the list is empty, creates a new head to the list
-	if (*head == NULL) {
-		*head = sourcePathList;
-		return true;
-	}
-
-	//Else finds the last element of the list
-	PathList* last = *head;
-
-	while (last->next != NULL) {
-		last = last->next;
-	}
-	last->next = sourcePathList;
-	return true;
-}
-
-/**
- * @author Francisco
- *
- * @brief Finds pathList by its id.
- *
- * @param List Head
- * @param PathList id
- * @return PathList pointer with the specified id
- * @return NULL if not found
- */
-PathList* FindPathList(PathList* head, int vertex) {
-
-	if (head == NULL) return NULL;
-
-	PathList* current = head;
-
-	while (current != NULL) {
-		if (current->vertex == vertex) return current;
-		current = current->next;
-	}
-
-	return NULL;
-}
-
-/**
- * @author Francisco
- *
- * @brief Wipe a PathLists linked list from memory.
- *
- * @param List head
- * @return true - List wiped Successfully
- * @return false - List is already empty
- */
-bool WipePathLists(PathList** head) {
-
-	if (*head == NULL) return false;
-
-	PathList* current = *head;
-	PathList* previous = NULL;
-
-	*head = NULL;
-
-	while (current != NULL)
-	{
-		previous = current;
-		current = current->next;
-		free(previous);
-	}
-
-	return true;
-}
-
-
-/************************************************************
- ******                 PATH FUNCTIONS                 ******
- ************************************************************/
-
- /**
-  * @author Francisco
-  *
-  * @brief Appends a new Path to the Graph.
-  *
-  * @param Graph Path
-  * @param Path to insert
-  * @return New Path
-  * @return NULL - Error allocating memory
-  */
-Path* CreatePath(int vertex) {
-
-	//Creates a new space in memory to Allocate the Path
-	Path* newPath = (Path*)malloc(sizeof(Path));
-
-	if (newPath == NULL) {
-		free(newPath);
-		return NULL;
-	}
-	newPath->vertex = vertex;
-	newPath->next = NULL;
-
-	return newPath;
-}
-
-/**
- * @author Francisco
- *
- * @brief Appends a new Path to the linked list.
- *
- * @param List Head
- * @param Path to insert
- * @return true - Added Successfully
- * @return false - Error allocating memory
- */
-bool AddPath(Path** head, Path* sourcePath) {
-
-	//If the list is empty, creates a new head to the list
-	if (*head == NULL) {
-		*head = sourcePath;
-		return true;
-	}
-
-	//Else finds the last element of the list
-	Path* last = *head;
-
-	while (last->next != NULL) {
-		last = last->next;
-	}
-	last->next = sourcePath;
-	return true;
-}
-
-/**
- * @author Francisco
- *
- * @brief Wipe a Paths linked list from memory.
- *
- * @param List head
- * @return true - List wiped Successfully
- * @return false - List is already empty
- */
-bool WipePaths(Path** head) {
-
-	if (*head == NULL) return false;
-
-	Path* current = *head;
-	Path* previous = NULL;
-
-	*head = NULL;
-
-	while (current != NULL)
-	{
-		previous = current;
-		current = current->next;
-		free(previous);
-	}
-
-	return true;
 }
