@@ -8,6 +8,58 @@
 
 #include "Transport.h"
 
+ /**
+  * @author Francisco
+  *
+  * @brief Creates a new Transport in memory.
+  *
+  * @param Graph Transport
+  * @param Transport to insert
+  * @return New Transport
+  * @return NULL - Error allocating memory
+  */
+TransportList* CreateTransport(int id, TransportType type, float batteryLife, float price, char* location) {
+
+	//Creates a new space in memory to Allocate the Transport
+	TransportList* newTransport = (TransportList*)malloc(sizeof(TransportList));
+
+	if (newTransport == NULL) {
+		free(newTransport);
+		return NULL;
+	}
+
+	newTransport->transport.id = id;
+	newTransport->transport.type = type;
+	newTransport->transport.batteryLife = batteryLife;
+	newTransport->transport.price = price;
+	strcpy(newTransport->transport.location, location);
+	newTransport->next = NULL;
+	newTransport->previous = NULL;
+
+	return newTransport;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Appends a new Transport to the head.
+ *
+ * @param head Transport
+ * @param Transport to insert
+ * @return true - Copied successfully
+ * @return false - Error creating transport
+ */
+bool CopyTransport(TransportList** head, TransportList* source) {
+
+	TransportList* transport = CreateTransport(source->transport.id, source->transport.type, source->transport.batteryLife, source->transport.price, source->transport.location);
+
+	if (transport != NULL) {
+		AddTransport(head, transport);
+		return true;
+	}
+	return false;
+}
+
 /**
  * @brief Appends a new Transport to the linked list.
  *
@@ -16,23 +68,11 @@
  * @return true - Added Successfully
  * @return false - Error allocating memory
  */
-bool AddTransport(TransportList** head, Transport sourceTransport) {
-
-	//Creates a new space in memory to Allocate the transport
-	TransportList* newTransport = (TransportList*)malloc(sizeof(TransportList));
-
-	if (newTransport == NULL) {
-		free(newTransport);
-		return false;
-	}
-
-	newTransport->transport = sourceTransport;
-	newTransport->previous = NULL;
-	newTransport->next = NULL;
+bool AddTransport(TransportList** head, TransportList* sourceTransport) {
 
 	//If the list is empty, creates a new head to the list
 	if (*head == NULL) {
-		*head = newTransport;
+		*head = sourceTransport;
 		return true;
 	}
 
@@ -42,7 +82,7 @@ bool AddTransport(TransportList** head, Transport sourceTransport) {
 	while (last->next != NULL) {
 		last = last->next;
 	}
-	last->next = newTransport;
+	last->next = sourceTransport;
 	last->next->previous = last;
 	return true;
 }
@@ -281,13 +321,13 @@ int ReadTransportsFile(TransportList** head, const char* fileName) {
 	if (file == NULL) return 2;
 
 	char buffer[256];
-	while (fgets(buffer, sizeof(buffer), file) != NULL)
-	{
-		if (sscanf(buffer, "%d;%d;%f;%f;%[^;];%d\n",
-			&current.id, &current.type, &current.batteryLife, &current.price, current.location, &current.renter) != 6)
+	while (fgets(buffer, sizeof(buffer), file) != NULL) {
+
+		if (sscanf(buffer, "%d;%d;%f;%f;%s\n",
+			&current.id, &current.type, &current.batteryLife, &current.price, current.location) != 5)
 			return 3;
 
-		AddTransport(head, current);
+		AddTransport(head, CreateTransport(current.id, current.type, current.batteryLife, current.price, current.location));
 	}
 
 	fclose(file);
@@ -318,8 +358,7 @@ int SaveTransportsAsFile(TransportList* head, const char* fileName) {
 	// Return 2 if the file wasn't open successfully
 	if (file == NULL) return 2;
 
-	do
-	{
+	do {
 		fwrite(&(current->transport), sizeof(TransportList), 1, file);
 
 		current = current->next;
@@ -327,4 +366,31 @@ int SaveTransportsAsFile(TransportList* head, const char* fileName) {
 
 	fclose(file);
 	return 1;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Get all the Transports from a Location
+ *
+ * @param List head
+ * @param location
+ * @return A list with all Transports in a location
+ * @return NULL - the graph is empty
+ */
+TransportList* FindTransportsInLocation(TransportList* head, char* location) {
+
+	TransportList* current = head;
+
+	TransportList* transports = NULL;
+
+	while (current != NULL) {
+
+		if (strcmp(current->transport.location, location) == 0)
+			CopyTransport(&transports, current);
+
+		current = current->next;
+	}
+
+	return transports;
 }

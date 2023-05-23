@@ -28,7 +28,6 @@
 		float batteryLife;
 		float price;
 		char location[LOCATION_SIZE];
-		int renter; // -1 Used as Default N/A Value
 	} Transport;
 
 	typedef struct TransportList TransportList;
@@ -41,6 +40,30 @@
 	/**
 	 * @author Francisco
 	 *
+	 * @brief Creates a new Transport in memory.
+	 *
+	 * @param Graph Transport
+	 * @param Transport to insert
+	 * @return New Transport
+	 * @return NULL - Error allocating memory
+	 */
+	TransportList* CreateTransport(int id, TransportType type, float batteryLife, float price, char* location);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Transport to the head.
+	 *
+	 * @param head Transport
+	 * @param Transport to insert
+	 * @return true - Copied successfully
+	 * @return false - Error creating transport
+	 */
+	bool CopyTransport(TransportList** head, TransportList* source);
+
+	/**
+	 * @author Francisco
+	 *
 	 * @brief Appends a new Transport to the linked list.
 	 *
 	 * @param List Head
@@ -48,7 +71,7 @@
 	 * @return true - Added Successfully
 	 * @return false - Error allocating memory
 	 */
-	bool AddTransport(TransportList** head, Transport sourceTransport);
+	bool AddTransport(TransportList** head, TransportList* sourceTransport);
 
 	/**
 	 * @author Francisco
@@ -166,5 +189,17 @@
 	 * @return 3 - The list is empty
 	 */
 	int SaveTransportsAsFile(TransportList* head, const char* fileName);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Get all the Transports from a Location
+	 *
+	 * @param List head
+	 * @param location
+	 * @return A list with all Transports in a location
+	 * @return NULL - the graph is empty
+	 */
+	TransportList* FindTransportsInLocation(TransportList* head, char* location);
 
 #endif

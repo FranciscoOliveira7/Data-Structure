@@ -17,11 +17,13 @@
 	// Default libraries
 	#include <stdlib.h>
 	#include <stdio.h>
-	#include <stdbool.h>
 	#include <string.h>
 
 	// Time library
 	#include <time.h>
+
+	#include <stdbool.h>
+	//typedef	enum bool { false, true } bool; // Used a simple bool enum instead of the library
 
 	// All string sizes
 	#define NAME_SIZE 40

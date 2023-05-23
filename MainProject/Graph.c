@@ -1,4 +1,4 @@
-/*****************************************************************//**
+﻿/*****************************************************************//**
  * @file   Graph.c
  * @brief  Oriented Weighted Graph structure and functions using Adjacency List paradigm
  *
@@ -22,7 +22,6 @@ Vertex* CreateGraph() {
 	graph = NULL;
 	return graph;
 }*/
-
 
 /**
  * @author Francisco
@@ -54,6 +53,23 @@ Vertex* CreateVertex(int id, char* name) {
 	newVertex->isVisited = false;
 
 	return newVertex;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Appends a new Vertex to the Graph.
+ *
+ * @param Graph Vertex
+ * @param Vertex to insert
+ * @return true - Copied successfully
+ * @return false - Error creating vertex
+ */
+bool* CopyVertex(Vertex** graph, Vertex* source) {
+
+	Vertex* vertex = CreateVertex(source->values.id, source->values.name);
+
+	AddVertex(graph, vertex);
 }
 
  /**
@@ -224,7 +240,7 @@ Vertex* SearchVertexByName(Vertex* graph, char* name) {
  */
 void displayGraph_Old(Vertex* graph) {
 
-	//No return value needed since u can literally see that nothing is printed .-.
+	//No return value needed since u can literally see that nothing is printed ¯\_(ツ)_/¯
 	if (graph == NULL) return;
 
 	Vertex* currentVertex = graph;
@@ -255,8 +271,10 @@ void DisplayGraph(Vertex* vertex) {
 	
 	if (vertex == NULL) return;
 
-	printf("\n %s\n", vertex->values.name);
-	DisplayAdjs(vertex->adjacency);
+	printf("\n %s", vertex->values.name);
+	if (!DisplayAdjs(vertex->adjacency))
+		printf(" (No Edges)");
+	printf("\n");
 	DisplayGraph(vertex->next);
 }
 
@@ -266,13 +284,17 @@ void DisplayGraph(Vertex* vertex) {
  * @brief Displays Vertex Adjecencies on terminal in a recursive way.
  *
  * @param Vertex adjecency
+ * @return true - There's at least one adjacency
+ * @return false - The Vertex has no adjacencies
  */
-void DisplayAdjs(Adj* adjecency) {
+bool DisplayAdjs(Adj* adjecency) {
 
-	if (adjecency == NULL) return;
+	if (adjecency == NULL) return false;
 
-	printf(" - %s (%.1fkm)\n", adjecency->vertex->values.name, adjecency->weight);
+	printf("\n - %s (%.1fkm)", adjecency->vertex->values.name, adjecency->weight);
 	DisplayAdjs(adjecency->next);
+
+	return true;
 }
 
 /**
@@ -612,6 +634,8 @@ bool IsTherePath(Vertex* graph, int source, int destination) {
  *
  * @param graph
  * @param source Vertex
+ * 
+ * @return PathList
  */
 PathList* FindShortestPath(Vertex* graph, int source) {
 
@@ -619,19 +643,21 @@ PathList* FindShortestPath(Vertex* graph, int source) {
 	PathList* pathlist = InitializePathList(graph);
 
 	// Set source Vertex distance to zero since it's we're already there
+	if (SearchVertexByCode(graph, source) == NULL) return NULL;
+
 	FindPathList(pathlist, source)->distance = 0;
 
 	Vertex* currentV = SearchVertexByCode(graph, source);
 	Adj* currentA = NULL;
 
 	Path* currentpath = CreatePath(source);
-	int distance = 0;
+	float distance = 0;
 	
 	while (!AllVerticesVisited(graph)) {
 
 		currentA = currentV->adjacency;
 		Adj* leastDistant = NULL; // Adjacency poiting to the Least distant vertex
-		int leastDistantDistance = 0; // Adjacency poiting to the Least distant vertex
+		float leastDistantDistance = 0; // Adjacency poiting to the Least distant vertex
 		while (currentA != NULL) {
 			if (!currentA->vertex->isVisited) {
 				// Checks if the current path is shorter than the current on the list and updates it
@@ -665,12 +691,38 @@ PathList* FindShortestPath(Vertex* graph, int source) {
 			currentV = SearchVertexByCode(graph, TopPath(currentpath)->vertex);
 		}
 		// If all the possible paths were checks and still not visited all vertices, return the possible paths
-		else {
-			return pathlist;
-		}
+		else return pathlist;
 	}
 
+	ResetVisitedNodes(graph);
 	return pathlist;
+}
+
+/**
+ * @author Francisco
+ *
+ * @brief Finds all Vertices in a determined radius.
+ *
+ * @param graph
+ * @param source Vertex
+ *
+ * @return All the Vertices
+ */
+Vertex* FindVerticesInRadius(Vertex* graph, int source, float radius) {
+
+	PathList* pathlist = FindShortestPath(graph, source);
+
+	Vertex* vertices = NULL;
+
+	while (pathlist != NULL) {
+
+		if (pathlist->distance <= radius)
+			CopyVertex(&vertices, SearchVertexByCode(graph, pathlist->vertex));
+
+		pathlist = pathlist->next;
+	}
+
+	return vertices;
 }
 
 /**

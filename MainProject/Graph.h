@@ -12,6 +12,7 @@
 #define GRAPH_H_
 
 	#include "Path.h"
+	#include "Transport.h"
 
 	#define LOCATION_TEXT_DIR "Data\\imported\\locations.txt"
 	#define LOCATION_BIN_DIR "Data\\saved\\locations.txt"
@@ -83,6 +84,18 @@
 	 * @return false - Error allocating memory
 	 */
 	bool AddVertex(Vertex** graph, Vertex* srcVertex);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Appends a new Vertex to the Graph.
+	 *
+	 * @param Graph Vertex
+	 * @param Vertex to insert
+	 * @return true - Copied successfully
+	 * @return false - Error creating vertex
+	 */
+	bool* CopyVertex(Vertex** graph, Vertex* source);
 
 	/**
 	 * @author Francisco
@@ -177,8 +190,10 @@
 	 * @brief Displays Vertex Adjecencies on terminal in a recursive way.
 	 *
 	 * @param Vertex adjecency
+	 * @return true - There's at least one adjacency
+	 * @return false - The Vertex has no adjacencies
 	 */
-	void DisplayAdjs(Adj* adjecency);
+	bool DisplayAdjs(Adj* adjecency);
 
 	/**
 	 * @author Francisco
@@ -302,8 +317,22 @@
 	 *
 	 * @param graph
 	 * @param source Vertex
+	 * 
+	 * @return PathList
 	 */
 	PathList* FindShortestPath(Vertex* graph, int source);
+
+	/**
+	 * @author Francisco
+	 *
+	 * @brief Finds all Vertices in a determined radius.
+	 *
+	 * @param graph
+	 * @param source Vertex
+	 *
+	 * @return All the Vertices
+	 */
+	Vertex* FindVerticesInRadius(Vertex* graph, int id, float radius);
 
 	/**
 	 * @author Francisco

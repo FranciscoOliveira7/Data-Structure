@@ -22,7 +22,7 @@
 
 	struct PathList {
 		int vertex;
-		int distance; // Total weigth of the path
+		float distance; // Total weigth of the path
 		Path* path;
 		PathList* next;
 	};

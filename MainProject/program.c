@@ -69,9 +69,11 @@ int main() {
 
 	PathList* pathlist = FindShortestPath(graph, 1);
 
-	Rent* rent = RegisterRent(1, 1, 1, pathlist, 2, 360);
+	Rent* rent = RegisterRent(1, FindCustomer(customers, 1), FindTransport(transports, 1), pathlist, 2, 360);
 
 	AddRent(&rents, rent);
+
+	Vertex* locations = FindVerticesInRadius(graph, 1, 2);
 	
 	ReadCustomersFile(&customers, CUSTOMER_TEXT_DIR);
 	ReadManagersFile(&managers, MANAGER_TEXT_DIR);
@@ -84,21 +86,12 @@ int main() {
 
 	AddCustomer(&customers, c1);
 
-	// TODO: FIX GETBYINDEX FUNCTIONS
+	TransportList* asf = FindTransportsInLocation(transports, "Lisboa");
 
 	//while (1 + 1 == 2)
 	//{
 	//	2;
 	//}
-
-	//Customer c3;
-
-	//c3 = FindCustomer(customers, 1);
-
-	//printf("Balance: %.2f", costumers->balance);
-
-
-	//printf("\n %d", SaveTransportsAsFile(transports, TRANSPORT_BIN_DIR));
 
 	CustomerList* sample = FindCustomer(customers, 1);
 

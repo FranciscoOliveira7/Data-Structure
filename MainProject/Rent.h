@@ -14,6 +14,8 @@
 	#include "Transport.h"
 	#include "Path.h"
 	#include "Graph.h"
+	#include "Customer.h"
+	#include "Transport.h"
 
 	#define RENT_TEXT_DIR "Data\\imported\\rents.txt"
 	#define RENT_BIN_DIR "Data\\saved\\rents.txt"
@@ -46,9 +48,9 @@
 	 * @param source location name
 	 * @param destination location name
 	 * @return New Rent
-	 * @return NULL - Error allocating memory
+	 * @return NULL - Invalid info
 	 */
-	Rent* RegisterRent(int id, int customer, int transport, PathList* source, int destination, int duration);
+	Rent* RegisterRent(int id, Customer* customer, Transport* transport, PathList* source, int destination, int duration);
 
 	/**
 	 * @author Francisco
@@ -60,7 +62,7 @@
 	 * @return New Rent
 	 * @return NULL - Error allocating memory
 	 */
-	float CalculatePrice(int distance, int duration);
+	float CalculatePrice(int distance, int duration, float price);
 
 	/**
 	 * @author Francisco

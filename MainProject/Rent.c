@@ -19,13 +19,15 @@
  * @param source location name
  * @param destination location name
  * @return New Rent
- * @return NULL - Error allocating memory
+ * @return NULL - Invalid info
  */
-Rent* RegisterRent(int id, int customer, int transport, PathList* source, int destination, int duration) {
+Rent* RegisterRent(int id, Customer* customer, Transport* transport, PathList* source, int destination, int duration) {
+
+	if (customer == NULL || transport == NULL) return NULL;
 
 	int distance = FindPathList(source, destination)->distance;
 
-	return CreateRent(id, customer, transport, distance, time(NULL), duration);
+	return CreateRent(id, customer->id, transport->id, distance, time(NULL), duration);
 }
 
 /**
@@ -38,7 +40,7 @@ Rent* RegisterRent(int id, int customer, int transport, PathList* source, int de
  * @return New Rent
  * @return NULL - Error allocating memory
  */
-float CalculatePrice(int distance, int duration) {
+float CalculatePrice(int distance, int duration, float transportPrice) {
 	
 	return distance * .7 + duration * .2;
 }
@@ -88,7 +90,7 @@ Rent* CreateRent(int id, int customer, int transport, float distance, time_t sta
 	newRent->distance = distance;
 	newRent->start = start;
 	newRent->duration = duration;
-	newRent->price = CalculatePrice(distance, duration);
+	newRent->price = CalculatePrice(distance, duration, 2);
 
 	return newRent;
 }
