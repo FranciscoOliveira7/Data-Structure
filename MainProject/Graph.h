@@ -88,10 +88,10 @@
 	/**
 	 * @author Francisco
 	 *
-	 * @brief Appends a new Vertex to the Graph.
+	 * @brief Copy a vertex to a diferent graph.
 	 *
 	 * @param Graph Vertex
-	 * @param Vertex to insert
+	 * @param Vertex to copy
 	 * @return true - Copied successfully
 	 * @return false - Error creating vertex
 	 */

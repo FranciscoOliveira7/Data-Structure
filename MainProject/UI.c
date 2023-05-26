@@ -11,8 +11,7 @@
 bool Login() {
 	bool ver = false;
 
-	do
-	{
+	do {
 		printf(" ");
 	} while (ver);
 }

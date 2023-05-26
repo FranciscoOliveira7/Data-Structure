@@ -11,10 +11,9 @@
 /**
  * @author Francisco
  *
- * @brief Appends a new PathList to the Graph.
+ * @brief Allocates a new PathList o memory.
  *
- * @param Graph PathList
- * @param PathList to insert
+ * @param Vertex id
  * @return New PathList
  * @return NULL - Error allocating memory
  */

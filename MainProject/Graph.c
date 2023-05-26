@@ -58,10 +58,10 @@ Vertex* CreateVertex(int id, char* name) {
 /**
  * @author Francisco
  *
- * @brief Appends a new Vertex to the Graph.
+ * @brief Copy a vertex to a diferent graph.
  *
  * @param Graph Vertex
- * @param Vertex to insert
+ * @param Vertex to copy
  * @return true - Copied successfully
  * @return false - Error creating vertex
  */
@@ -326,7 +326,7 @@ int SaveGraphAsFile(Vertex* graph, const char* fileName) {
 	
 	fwrite(&numOfVertexes, sizeof(int), 1, file);
 
-	// Save Vertecies
+	// Save Vertices
 	while (currentV != NULL) {
 		fwrite(&(currentV->values), sizeof(VertexValues), 1, file);
 		currentV = currentV->next;
@@ -550,10 +550,10 @@ void WipeAdj(Vertex* vertex) {
 /**
  * @author Francisco
  *
- * @brief Removes all graph Vertecies visited state.
+ * @brief Removes all graph Vertices visited state.
  *
  * @param Graph
- * @return true - All Vertecies reseted
+ * @return true - All Vertices reseted
  * @return false - Graph is empty
  */
 bool ResetVisitedNodes(Vertex* graph) {
@@ -575,8 +575,8 @@ bool ResetVisitedNodes(Vertex* graph) {
  * @brief Checks if all the Vertices are visited.
  *
  * @param Graph
- * @return true - All Vertecies are visited
- * @return false - Not All Vertecies are visited
+ * @return true - All Vertices are visited
+ * @return false - Not All Vertices are visited
  */
 bool AllVerticesVisited(Vertex* graph) {
 
@@ -691,7 +691,7 @@ PathList* FindShortestPath(Vertex* graph, int source) {
 			currentV = SearchVertexByCode(graph, TopPath(currentpath)->vertex);
 		}
 		// If all the possible paths were checks and still not visited all vertices, return the possible paths
-		else return pathlist;
+		else break;
 	}
 
 	ResetVisitedNodes(graph);

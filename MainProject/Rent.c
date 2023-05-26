@@ -33,10 +33,11 @@ Rent* RegisterRent(int id, Customer* customer, Transport* transport, PathList* s
 /**
  * @author Francisco
  *
- * @brief Appends a new Rent to the Graph.
+ * @brief Calculates Rent's Price.
  *
- * @param Graph Rent
- * @param Rent to insert
+ * @param distance
+ * @param duration
+ * @param transportPrice
  * @return New Rent
  * @return NULL - Error allocating memory
  */
