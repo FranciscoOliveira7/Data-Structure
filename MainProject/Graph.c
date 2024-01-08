@@ -642,7 +642,7 @@ PathList* FindShortestPath(Vertex* graph, int source) {
 	// All the shortest paths will be contained in this list, we initialize so all the vertexes start with an "infinite" distance
 	PathList* pathlist = InitializePathList(graph);
 
-	// Set source Vertex distance to zero since it's we're already there
+	// Set source Vertex distance to zero since we're already there
 	if (SearchVertexByCode(graph, source) == NULL) return NULL;
 
 	FindPathList(pathlist, source)->distance = 0;
@@ -656,8 +656,8 @@ PathList* FindShortestPath(Vertex* graph, int source) {
 	while (!AllVerticesVisited(graph)) {
 
 		currentA = currentV->adjacency;
-		Adj* leastDistant = NULL; // Adjacency poiting to the Least distant vertex
-		float leastDistantDistance = 0; // Adjacency poiting to the Least distant vertex
+		Adj* leastDistant = NULL; // Adjacency pointing to the Least distant vertex
+		float leastDistantDistance = 0; // Adjacency pointing to the Least distant vertex
 		while (currentA != NULL) {
 			if (!currentA->vertex->isVisited) {
 				// Checks if the current path is shorter than the current on the list and updates it
